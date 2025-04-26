@@ -20,10 +20,16 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  integration_test:
+    sdk: flutter
+  mockito: ^5.4.2
+  shared_preferences: ^2.2.1
   flutter_lints: ^2.0.0
 
 flutter:
   uses-material-design: true
+  assets:
+    - test/goldens/
 
 topics:
   - theme

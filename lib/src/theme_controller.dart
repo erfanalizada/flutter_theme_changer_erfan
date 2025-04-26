@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ThemeNotifier extends StateNotifier<ThemeData> {
-  ThemeNotifier() : super(_createTheme(Colors.blue));
+  ThemeNotifier() : super(_createTheme(Colors.blue)) {
+    // Load saved theme when initialized
+    loadSavedTheme();
+  }
+
+  static const String _themeColorKey = 'theme_color';
 
   static ThemeData _createTheme(Color color) {
     final brightness = ThemeData.estimateBrightnessForColor(color);
@@ -75,7 +81,30 @@ class ThemeNotifier extends StateNotifier<ThemeData> {
     );
   }
 
-  void updateTheme(Color color) => state = _createTheme(color);
+  Future<void> saveThemePreference() async {
+    final prefs = await SharedPreferences.getInstance();
+    final colorValue = '#${state.colorScheme.primary.value.toRadixString(16).padLeft(8, '0')}';
+    await prefs.setString(_themeColorKey, colorValue);
+  }
+
+  Future<void> loadSavedTheme() async {
+    final prefs = await SharedPreferences.getInstance();
+    final colorString = prefs.getString(_themeColorKey);
+    if (colorString != null) {
+      try {
+        final colorValue = int.parse(colorString.substring(1), radix: 16);
+        final color = Color(colorValue);
+        state = _createTheme(color);
+      } catch (e) {
+        // If there's an error parsing the color, keep the default theme
+      }
+    }
+  }
+
+  void updateTheme(Color color) {
+    state = _createTheme(color);
+    saveThemePreference(); // Save the theme whenever it's updated
+  }
 }
 
 final themeProvider = StateNotifierProvider<ThemeNotifier, ThemeData>((ref) {
