@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Flutter Theme Changer
+Comment=A Flutter application for theme changing functionality
+Exec=flutter_theme_changer_erfan
+Icon=com.example.flutter_theme_changer_erfan
+Terminal=false
+Type=Application
+Categories=Utility;
