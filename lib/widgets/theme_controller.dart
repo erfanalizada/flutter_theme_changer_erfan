@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ThemeNotifier extends StateNotifier<ThemeData> {
-  ThemeNotifier() : super(_createTheme(Colors.blue)); // Default color
+  ThemeNotifier() : super(_createTheme(Colors.blue));
 
   static ThemeData _createTheme(Color color) {
+    final brightness = ThemeData.estimateBrightnessForColor(color);
+    final contrastColor = brightness == Brightness.light ? Colors.black : Colors.white;
+
     return ThemeData(
       colorScheme: ColorScheme.fromSeed(
         seedColor: color,
@@ -16,65 +19,25 @@ class ThemeNotifier extends StateNotifier<ThemeData> {
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           backgroundColor: color,
-          foregroundColor: ThemeData.estimateBrightnessForColor(color) == Brightness.light 
-              ? Colors.black 
-              : Colors.white,
+          foregroundColor: contrastColor,
         ),
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
-        style: OutlinedButton.styleFrom(
-          foregroundColor: color,
-        ),
+        style: OutlinedButton.styleFrom(foregroundColor: color),
       ),
       textButtonTheme: TextButtonThemeData(
-        style: TextButton.styleFrom(
-          foregroundColor: color,
-        ),
+        style: TextButton.styleFrom(foregroundColor: color),
       ),
 
-      // Input and Dropdown themes
-      inputDecorationTheme: InputDecorationTheme(
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: color),
-        ),
-        focusColor: color,
-        enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.grey.shade400),
-        ),
-        focusedErrorBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: color),
-        ),
-        errorBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: Colors.red),
-        ),
-        iconColor: color,
-      ),
+      // Input themes
+      inputDecorationTheme: _createInputDecorationTheme(color),
+      dropdownMenuTheme: _createDropdownMenuTheme(color),
 
-      // Dropdown specific theme
-      dropdownMenuTheme: DropdownMenuThemeData(
-        inputDecorationTheme: InputDecorationTheme(
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: color),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.grey.shade400),
-          ),
-        ),
-        menuStyle: MenuStyle(
-          backgroundColor: MaterialStatePropertyAll(Colors.white),
-          surfaceTintColor: MaterialStatePropertyAll(color),
-        ),
-      ),
-
-      // AppBar theme
+      // Navigation themes
       appBarTheme: AppBarTheme(
         backgroundColor: color,
-        foregroundColor: ThemeData.estimateBrightnessForColor(color) == Brightness.light 
-            ? Colors.black 
-            : Colors.white,
+        foregroundColor: contrastColor,
       ),
-
-      // Bottom navigation bar theme
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
         backgroundColor: color,
         selectedItemColor: Colors.white,
@@ -85,9 +48,37 @@ class ThemeNotifier extends StateNotifier<ThemeData> {
     );
   }
 
-  void updateTheme(Color color) {
-    state = _createTheme(color);
+  static InputDecorationTheme _createInputDecorationTheme(Color color) {
+    return InputDecorationTheme(
+      focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: color)),
+      enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: Colors.grey.shade400),
+      ),
+      focusedErrorBorder: OutlineInputBorder(borderSide: BorderSide(color: color)),
+      errorBorder: const OutlineInputBorder(
+        borderSide: BorderSide(color: Colors.red),
+      ),
+      iconColor: color,
+      focusColor: color,
+    );
   }
+
+  static DropdownMenuThemeData _createDropdownMenuTheme(Color color) {
+    return DropdownMenuThemeData(
+      inputDecorationTheme: InputDecorationTheme(
+        focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: color)),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.grey.shade400),
+        ),
+      ),
+      menuStyle: MenuStyle(
+        backgroundColor: const MaterialStatePropertyAll(Colors.white),
+        surfaceTintColor: MaterialStatePropertyAll(color),
+      ),
+    );
+  }
+
+  void updateTheme(Color color) => state = _createTheme(color);
 }
 
 final themeProvider = StateNotifierProvider<ThemeNotifier, ThemeData>((ref) {
