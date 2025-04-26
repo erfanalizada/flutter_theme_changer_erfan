@@ -55,7 +55,7 @@ class _ThemeColorPickerState extends State<ThemeColorPicker> {
           child: Container(
             width: 60,
             height: 60,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: Colors.grey,
               shape: BoxShape.circle,
             ),
