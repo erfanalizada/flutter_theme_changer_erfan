@@ -1,3 +1,8 @@
+## 0.0.1+5
+
+* Adjusted gif sizes
+
+
 ## 0.0.1+4
 
 * Added new ThemeDialogButton widget for dialog-based theme selection
