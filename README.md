@@ -123,7 +123,9 @@ You'll see a floating color button — tap it, pick a color, and the app's theme
 
 ## ✅ All tests passed,including integration tests 
 
-![ScreenShot of testings log](image.png)
+## ✅ All tests passed, including integration tests
+
+![ScreenShot of testings log](https://raw.githubusercontent.com/erfanalizada/flutter_theme_changer_erfan/main/all_tests_passed.png)
 
 ## 🙌 Contributing
 Contributions are welcome!
