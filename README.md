@@ -15,15 +15,20 @@ It provides both a **full theme changer wrapper** and **two beautiful theme pick
 - ✍️ Fully customizable if needed
 
 
-## 🎥 Theme Color Picker Demo ThemeColorPickerWidget
+<h2>🎥 Theme Color Picker Demo</h2>
 
-![ThemeColorPickerWidget](https://raw.githubusercontent.com/erfanalizada/flutter_theme_changer_erfan/main/ThemeColorPickerWidget.gif)
+<img src="https://raw.githubusercontent.com/erfanalizada/flutter_theme_changer_erfan/main/ThemeColorPickerWidget.gif" width="400"/>
+
+<p><i>Above: Animated demo of ThemeColorPickerWidget.</i></p>
 
 ---
 
-## 🎥 Theme Dialog Button Demo ThemeDialogButton
+<h2>🎥 Theme Dialog Button Demo</h2>
 
-![ThemeDialogButton](https://raw.githubusercontent.com/erfanalizada/flutter_theme_changer_erfan/main/ThemeDialogButton.gif)
+<img src="https://raw.githubusercontent.com/erfanalizada/flutter_theme_changer_erfan/main/ThemeDialogButton.gif" width="400"/>
+
+<p><i>Above: Animated demo of ThemeDialogButton.</i></p>
+
 
 
 
