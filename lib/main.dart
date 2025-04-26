@@ -54,16 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(_navItems[_currentIndex].label!)),
-      body: Stack(
-        children: [
-          _screens[_currentIndex],
-          const Positioned(
-            bottom: 80,
-            right: 20,
-            child: ThemeColorPickerWidget(),
-          ),
-        ],
-      ),
+      body: _screens[_currentIndex],  // Removed Stack and Positioned widget
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: (index) => setState(() => _currentIndex = index),

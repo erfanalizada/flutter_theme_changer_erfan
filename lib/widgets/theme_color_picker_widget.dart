@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'theme_controller.dart';
 
-class ThemeColorPickerWidget extends ConsumerWidget {
+class ThemeColorPickerWidget extends ConsumerStatefulWidget {
   const ThemeColorPickerWidget({super.key});
 
   static const List<Color> _availableColors = [
@@ -15,22 +15,59 @@ class ThemeColorPickerWidget extends ConsumerWidget {
   ];
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return Card(
-      elevation: 4,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Wrap(
-          spacing: 8,
-          children: _availableColors.map((color) => _buildColorButton(color, ref)).toList(),
-        ),
+  ConsumerState<ThemeColorPickerWidget> createState() => _ThemeColorPickerWidgetState();
+}
+
+class _ThemeColorPickerWidgetState extends ConsumerState<ThemeColorPickerWidget> {
+  bool _isExpanded = false;
+  
+  void _toggleExpanded() {
+    setState(() {
+      _isExpanded = !_isExpanded;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.transparent,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (_isExpanded)
+            Padding(
+              padding: const EdgeInsets.only(bottom: 16),
+              child: Card(
+                elevation: 8,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 200),
+                  padding: const EdgeInsets.all(16),
+                  child: Wrap(
+                    spacing: 12,
+                    runSpacing: 12,
+                    children: ThemeColorPickerWidget._availableColors
+                        .map((color) => _buildColorButton(color))
+                        .toList(),
+                  ),
+                ),
+              ),
+            ),
+          _buildMainButton(),
+        ],
       ),
     );
   }
 
-  Widget _buildColorButton(Color color, WidgetRef ref) {
+  Widget _buildColorButton(Color color) {
     return InkWell(
-      onTap: () => ref.read(themeProvider.notifier).updateTheme(color),
+      onTap: () {
+        ref.read(themeProvider.notifier).updateTheme(color);
+        _toggleExpanded();
+      },
+      borderRadius: BorderRadius.circular(20),
       child: Container(
         width: 40,
         height: 40,
@@ -45,6 +82,39 @@ class ThemeColorPickerWidget extends ConsumerWidget {
               offset: const Offset(0, 2),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildMainButton() {
+    final currentTheme = ref.watch(themeProvider);
+    
+    return InkWell(
+      onTap: _toggleExpanded,
+      borderRadius: BorderRadius.circular(30),
+      child: Container(
+        width: 60,
+        height: 60,
+        decoration: BoxDecoration(
+          color: currentTheme.colorScheme.primary,
+          shape: BoxShape.circle,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.3),
+              blurRadius: 8,
+              offset: const Offset(0, 3),
+            ),
+          ],
+        ),
+        child: AnimatedRotation(
+          duration: const Duration(milliseconds: 200),
+          turns: _isExpanded ? 0.125 : 0, // Rotates 45 degrees when expanded
+          child: Icon(
+            _isExpanded ? Icons.close : Icons.color_lens,
+            color: currentTheme.colorScheme.onPrimary,
+            size: 30,
+          ),
         ),
       ),
     );
