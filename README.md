@@ -14,6 +14,20 @@ It provides both a **full theme changer wrapper** and **two beautiful theme pick
 - 🎯 Simple API and easy integration
 - ✍️ Fully customizable if needed
 
+
+## 🎥 Theme Color Picker Demo ThemeColorPickerWidget
+
+![ThemeColorPickerWidget](https://raw.githubusercontent.com/erfanalizada/flutter_theme_changer_erfan/main/ThemeColorPickerWidget.gif)
+
+---
+
+## 🎥 Theme Dialog Button Demo ThemeDialogButton
+
+![ThemeDialogButton](https://raw.githubusercontent.com/erfanalizada/flutter_theme_changer_erfan/main/ThemeDialogButton.gif)
+
+
+
+
 ## Getting started
 
 Add this to your package's `pubspec.yaml` file:
