@@ -3,16 +3,19 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'theme_controller.dart';
 
 class ThemeColorPickerWidget extends ConsumerStatefulWidget {
-  const ThemeColorPickerWidget({super.key});
+  const ThemeColorPickerWidget({
+    super.key,
+    this.availableColors = const [
+      Colors.blue,
+      Colors.red,
+      Colors.green,
+      Colors.orange,
+      Colors.purple,
+      Colors.pink,
+    ],
+  });
 
-  static const List<Color> _availableColors = [
-    Colors.blue,
-    Colors.red,
-    Colors.green,
-    Colors.orange,
-    Colors.purple,
-    Colors.pink,
-  ];
+  final List<Color> availableColors;
 
   @override
   ConsumerState<ThemeColorPickerWidget> createState() => _ThemeColorPickerWidgetState();
@@ -20,7 +23,7 @@ class ThemeColorPickerWidget extends ConsumerStatefulWidget {
 
 class _ThemeColorPickerWidgetState extends ConsumerState<ThemeColorPickerWidget> {
   bool _isExpanded = false;
-  
+
   void _toggleExpanded() {
     setState(() {
       _isExpanded = !_isExpanded;
@@ -29,6 +32,8 @@ class _ThemeColorPickerWidgetState extends ConsumerState<ThemeColorPickerWidget>
 
   @override
   Widget build(BuildContext context) {
+    final currentTheme = ref.watch(themeProvider);
+
     return Material(
       color: Colors.transparent,
       child: Column(
@@ -48,14 +53,14 @@ class _ThemeColorPickerWidgetState extends ConsumerState<ThemeColorPickerWidget>
                   child: Wrap(
                     spacing: 12,
                     runSpacing: 12,
-                    children: ThemeColorPickerWidget._availableColors
+                    children: widget.availableColors
                         .map((color) => _buildColorButton(color))
                         .toList(),
                   ),
                 ),
               ),
             ),
-          _buildMainButton(),
+          _buildMainButton(currentTheme),
         ],
       ),
     );
@@ -87,9 +92,7 @@ class _ThemeColorPickerWidgetState extends ConsumerState<ThemeColorPickerWidget>
     );
   }
 
-  Widget _buildMainButton() {
-    final currentTheme = ref.watch(themeProvider);
-    
+  Widget _buildMainButton(ThemeData currentTheme) {
     return InkWell(
       onTap: _toggleExpanded,
       borderRadius: BorderRadius.circular(30),
@@ -109,7 +112,7 @@ class _ThemeColorPickerWidgetState extends ConsumerState<ThemeColorPickerWidget>
         ),
         child: AnimatedRotation(
           duration: const Duration(milliseconds: 200),
-          turns: _isExpanded ? 0.125 : 0, // Rotates 45 degrees when expanded
+          turns: _isExpanded ? 0.125 : 0,
           child: Icon(
             _isExpanded ? Icons.close : Icons.color_lens,
             color: currentTheme.colorScheme.onPrimary,

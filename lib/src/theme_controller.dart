@@ -15,7 +15,6 @@ class ThemeNotifier extends StateNotifier<ThemeData> {
       ),
       useMaterial3: true,
       
-      // Button themes
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           backgroundColor: color,
@@ -29,11 +28,9 @@ class ThemeNotifier extends StateNotifier<ThemeData> {
         style: TextButton.styleFrom(foregroundColor: color),
       ),
 
-      // Input themes
       inputDecorationTheme: _createInputDecorationTheme(color),
       dropdownMenuTheme: _createDropdownMenuTheme(color),
 
-      // Navigation themes
       appBarTheme: AppBarTheme(
         backgroundColor: color,
         foregroundColor: contrastColor,
