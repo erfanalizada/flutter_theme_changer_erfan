@@ -1,6 +1,6 @@
 name: flutter_theme_changer_erfan
 description: A Flutter package that provides a widget for changing application themes. Includes both an expandable color picker and a dialog-based picker, ideal for implementing theme switching functionality in user profile screens or settings pages.
-version: 0.0.1+5
+version: 0.0.1+6
 
 repository: https://github.com/erfanzar/flutter_theme_changer_erfan
 homepage: https://github.com/erfanzar/flutter_theme_changer_erfan

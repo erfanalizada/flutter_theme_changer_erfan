@@ -1,3 +1,8 @@
+## 0.0.1+6
+
+* Adjusted gif sizes
+
+
 ## 0.0.1+5
 
 * Adjusted gif sizes
