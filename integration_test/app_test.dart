@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:flutter_theme_changer_erfan/main.dart' as app;
@@ -10,22 +11,34 @@ void main() {
       app.main();
       await tester.pumpAndSettle();
 
-      // Find and tap the theme picker button
-      final themePickerButton = find.byTooltip('Pick theme color');
-      await tester.tap(themePickerButton);
+      // Tap the main expand button (first InkWell)
+      final mainButton = find.byType(InkWell).first;
+      await tester.tap(mainButton);
       await tester.pumpAndSettle();
 
-      // Verify color picker is shown
-      expect(find.byType(ColorPicker), findsOneWidget);
+      // Find all InkWell buttons (main + color buttons)
+      final allInkWells = find.byType(InkWell);
+      expect(allInkWells, findsWidgets);
 
-      // Select a new color
-      final redColorButton = find.byKey(const Key('red_color_button'));
-      await tester.tap(redColorButton);
+      // Find the AppBar widget
+      final appBarContext = tester.element(find.byType(AppBar));
+
+      // Save the initial primary color from AppBar context
+      final initialPrimaryColor = Theme.of(appBarContext).colorScheme.primary;
+
+      // Tap the first color button (after the main button)
+      final firstColorButton = allInkWells.at(1);
+      await tester.tap(firstColorButton);
       await tester.pumpAndSettle();
 
-      // Verify theme has changed
-      final scaffold = tester.widget<Scaffold>(find.byType(Scaffold));
-      expect(scaffold.backgroundColor.red > scaffold.backgroundColor.blue, isTrue);
+      // Re-fetch AppBar context (in case it rebuilt)
+      final updatedAppBarContext = tester.element(find.byType(AppBar));
+
+      // Save the updated primary color
+      final updatedPrimaryColor = Theme.of(updatedAppBarContext).colorScheme.primary;
+
+      // Verify that the theme color actually changed
+      expect(updatedPrimaryColor, isNot(equals(initialPrimaryColor)));
     });
   });
 }

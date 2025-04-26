@@ -13,7 +13,7 @@ void main() {
   testWidgets('Golden test - red theme', (WidgetTester tester) async {
     // Set up the screen size and pixel ratio for consistent screenshots
     await tester.binding.setSurfaceSize(const Size(400, 800));
-    tester.binding.window.devicePixelRatioTestValue = 1.0;
+    tester.view.devicePixelRatio = 1.0;
 
     await tester.pumpWidget(
       const ProviderScope(
@@ -37,4 +37,5 @@ void main() {
     );
   });
 }
+
 

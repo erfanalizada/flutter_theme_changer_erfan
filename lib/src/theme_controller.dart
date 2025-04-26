@@ -83,7 +83,7 @@ class ThemeNotifier extends StateNotifier<ThemeData> {
 
   Future<void> saveThemePreference() async {
     final prefs = await SharedPreferences.getInstance();
-    final colorValue = '#${state.colorScheme.primary.value.toRadixString(16).padLeft(8, '0')}';
+    final colorValue = '#${state.colorScheme.primary.toARGB32().toRadixString(16).padLeft(8, '0')}';
     await prefs.setString(_themeColorKey, colorValue);
   }
 

@@ -121,6 +121,10 @@ flutter run --target=example/lib/main.dart
 ```
 You'll see a floating color button — tap it, pick a color, and the app's theme changes instantly!
 
+## ✅ All tests passed,including integration tests 
+
+![ScreenShot of testings log](image.png)
+
 ## 🙌 Contributing
 Contributions are welcome!
 Feel free to open issues or submit pull requests if you'd like to help!
@@ -133,7 +137,6 @@ Erfan Alizada. Developed with ❤️ using Flutter and Riverpod.
 - For more examples, check out the example directory
 - Report bugs on the [issue tracker](https://github.com/erfanalizada/flutter_theme_changer_erfan/issues)
 - Contribute to the package on [GitHub](https://github.com/erfanalizada/flutter_theme_changer_erfan)
-
 
 
 ## 📄 License MIT

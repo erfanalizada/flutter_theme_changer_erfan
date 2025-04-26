@@ -80,8 +80,8 @@ void main() {
     expect(updatedColor, isNot(equals(initialColor)));
     
     // Verify the new color is in the red spectrum
-    expect(updatedColor.red > updatedColor.blue, isTrue);
-    expect(updatedColor.red > updatedColor.green, isTrue);
+    expect(updatedColor.r > updatedColor.b, isTrue);
+    expect(updatedColor.r > updatedColor.g, isTrue);
   });
 
   test('ThemeNotifier creates correct initial theme', () {
@@ -91,7 +91,7 @@ void main() {
     expect(notifier.state.useMaterial3, isTrue);
     // Verify initial color scheme is based on blue
     final colorScheme = notifier.state.colorScheme;
-    expect(colorScheme.primary.blue > colorScheme.primary.red, isTrue);
+    expect(colorScheme.primary.b > colorScheme.primary.r, isTrue);
   });
 
   test('ThemeNotifier updates theme correctly', () {
@@ -99,7 +99,7 @@ void main() {
     notifier.updateTheme(Colors.red);
     final colorScheme = notifier.state.colorScheme;
     // Verify the new color scheme is based on red
-    expect(colorScheme.primary.red > colorScheme.primary.blue, isTrue);
-    expect(colorScheme.primary.red > colorScheme.primary.green, isTrue);
+    expect(colorScheme.primary.r > colorScheme.primary.b, isTrue);
+    expect(colorScheme.primary.r > colorScheme.primary.g, isTrue);
   });
 }

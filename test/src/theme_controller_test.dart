@@ -14,15 +14,15 @@ void main() {
 
     test('initial state should have default blue theme', () {
       final colorScheme = themeNotifier.state.colorScheme;
-      expect(colorScheme.primary.blue > colorScheme.primary.red, isTrue);
-      expect(colorScheme.primary.blue > colorScheme.primary.green, isTrue);
+      expect(colorScheme.primary.b > colorScheme.primary.r, isTrue);
+      expect(colorScheme.primary.b > colorScheme.primary.g, isTrue);
     });
 
     test('updateTheme should change theme color', () {
       themeNotifier.updateTheme(Colors.red);
       final colorScheme = themeNotifier.state.colorScheme;
-      expect(colorScheme.primary.red > colorScheme.primary.blue, isTrue);
-      expect(colorScheme.primary.red > colorScheme.primary.green, isTrue);
+      expect(colorScheme.primary.r > colorScheme.primary.b, isTrue);
+      expect(colorScheme.primary.r > colorScheme.primary.g, isTrue);
     });
 
     test('theme should be saved when updated', () async {
@@ -38,8 +38,8 @@ void main() {
 
       await themeNotifier.loadSavedTheme();
       final colorScheme = themeNotifier.state.colorScheme;
-      expect(colorScheme.primary.red > colorScheme.primary.blue, isTrue);
-      expect(colorScheme.primary.red > colorScheme.primary.green, isTrue);
+      expect(colorScheme.primary.r > colorScheme.primary.b, isTrue);
+      expect(colorScheme.primary.r > colorScheme.primary.g, isTrue);
     });
   });
 }

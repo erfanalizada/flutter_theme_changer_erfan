@@ -62,7 +62,7 @@ void main() {
 
       final updatedColor = tester.widget<ColoredBox>(find.byType(ColoredBox)).color;
       expect(updatedColor, isNot(equals(initialColor)));
-      expect(updatedColor.red > updatedColor.blue, isTrue);
+      expect(updatedColor.r > updatedColor.b, isTrue);
     });
   });
 }

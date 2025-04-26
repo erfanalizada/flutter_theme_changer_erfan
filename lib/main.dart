@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_theme_changer_erfan/dynamic_theme_picker.dart';
-import 'package:flutter_theme_changer_erfan/src/theme_changer.dart';
 
 void main() {
   runApp(const ProviderScope(child: MyApp()));
