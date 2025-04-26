@@ -3,6 +3,8 @@
 * Added new ThemeDialogButton widget for dialog-based theme selection
 * Updated documentation with examples for both picker widgets
 * Improved package description and feature list
+* Added gifs for both picker widgets for better understanding.
+
 
 ## 0.0.1+3
 
