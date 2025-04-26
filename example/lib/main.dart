@@ -3,29 +3,46 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_theme_changer_erfan/dynamic_theme_picker.dart';
 
 void main() {
-  runApp(const ProviderScope(child: DemoApp()));
+  runApp(const ProviderScope(child: MyApp()));
 }
 
-class DemoApp extends StatelessWidget {
-  const DemoApp({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return const ThemeChanger(
-      title: 'Theme Changer Demo',
-      child: ThemeChangerDemo(),
+      title: 'Theme Dialog Demo',
+      child: HomeScreen(),
     );
   }
 }
 
-class ThemeChangerDemo extends StatelessWidget {
-  const ThemeChangerDemo({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  int _selectedIndex = 0;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Theme Changer Demo'),
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: const Text('My App'),
+        actions: const [
+          ThemeDialogButton(), // Using the new widget here
+        ],
       ),
       body: const Center(
         child: ThemeColorPickerWidget(),

@@ -1,16 +1,18 @@
 # Flutter Dynamic Theme Changer
 
 A Flutter package that allows you to easily change your app's theme color dynamically at runtime using Riverpod.  
-It provides both a **full theme changer wrapper** and a **beautiful color picker widget**!
+It provides both a **full theme changer wrapper** and **two beautiful theme picker widgets**!
 
 ## ✨  Features
 
-- 🎨 Dynamic primary color theme switching.
-- 🧩 Ready-to-use ThemeColorPickerWidget and ThemeChanger.
-- 🌈 Allow users to pick from customizable color palettes.
-- 🚀 Built with Flutter Riverpod 2.0 (StateNotifier based).
-- 🎯 Simple API and easy integration.
-- ✍️ Fully customizable if needed.
+- 🎨 Dynamic primary color theme switching
+- 🧩 Two ready-to-use theme picker widgets:
+  - `ThemeColorPickerWidget`: An expandable color picker that can be placed anywhere(Great for floating).
+  - `ThemeDialogButton`: A convenient AppBar button that shows colors in a dialog. Great for all common use cases.
+- 🌈 Allow users to pick from customizable color palettes
+- 🚀 Built with Flutter Riverpod 2.0 (StateNotifier based)
+- 🎯 Simple API and easy integration
+- ✍️ Fully customizable if needed
 
 ## Getting started
 
@@ -24,55 +26,63 @@ Then run `flutter pub get` to install the package.
 
 ## 🛠️ How to Use
 
-Wrap your app using ThemeChanger:
-
-```dart
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:dynamic_theme_picker/dynamic_theme_picker.dart';
-
-void main() {
-  runApp(const ProviderScope(child: MyApp()));
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const ThemeChanger(
-      title: 'Dynamic Theme Demo',
-      child: HomeScreen(),
-    );
-  }
-}
-
-```
-Then i nside your app, use ThemeColorPickerWidget anywhere you want:
-
+### Option 1: Using ThemeColorPickerWidget (Expandable Picker)
+Place the color picker directly in your layout:
 
 ```dart
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Home')),
-      body: const Center(
-        child: ThemeColorPickerWidget(), // <-- Tap to pick a new theme color!
+      body: Center(
+        child: ThemeColorPickerWidget(), // Expands to show colors when tapped
       ),
     );
   }
 }
-
 ```
 
-## 🎨 Customizing the Color Picker
-
-You can pass a custom list of colors to the ThemeColorPickerWidget:
+### Option 2: Using ThemeDialogButton (Dialog Picker)
+Add a button to your AppBar that shows colors in a dialog:
 
 ```dart
+class HomeScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('My App'),
+        actions: [
+          ThemeDialogButton(), // Shows color picker in a dialog
+        ],
+      ),
+    );
+  }
+}
+```
 
+### Basic Setup
+Wrap your app with ThemeChanger:
+
+```dart
+void main() {
+  runApp(
+    const ProviderScope(
+      child: ThemeChanger(
+        title: 'My App',
+        child: HomeScreen(),
+      ),
+    ),
+  );
+}
+```
+
+## 🎨 Customizing Colors
+
+Both widgets accept custom colors:
+
+```dart
+// For ThemeColorPickerWidget
 ThemeColorPickerWidget(
   availableColors: [
     Colors.teal,
@@ -84,28 +94,17 @@ ThemeColorPickerWidget(
   ],
 )
 
-```
-
-You can also use ThemeColorPicker (the stateless version) for manual color selection:
-
-```dart
-
-ThemeColorPicker(
-  availableColors: [Colors.blue, Colors.red, Colors.green],
-  onColorSelected: (color) {
-    // Do something when a color is picked
-  },
-)
-
+// For ThemeDialogButton (coming soon)
 ```
 
 ## 📦 What's Inside
 
 Widget/File | Purpose
-ThemeChanger | Wraps your app with dynamic theming.
-ThemeColorPickerWidget | A widget that expands to show selectable colors.
-ThemeColorPicker | Stateless color picker (manual control).
-ThemeNotifier + themeProvider | Riverpod logic for managing and updating theme color.
+---|---
+`ThemeChanger` | Wraps your app with dynamic theming
+`ThemeColorPickerWidget` | Expandable color picker that shows in-place
+`ThemeDialogButton` | AppBar button that shows colors in a dialog
+`ThemeNotifier + themeProvider` | Riverpod logic for managing theme color
 
 
 ## 📲 Example
@@ -144,3 +143,4 @@ Erfan Alizada. Developed with ❤️ using Flutter and Riverpod.
 ## 📄 License MIT
 This project is licensed under the MIT License.
 See the LICENSE file for more details.
+

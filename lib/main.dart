@@ -26,6 +26,9 @@ class ThemeChangerDemo extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Theme Changer Demo'),
+        actions: const [
+          ThemeDialogButton(),
+        ],
       ),
       body: const Center(
         child: ThemeColorPickerWidget(),
