@@ -6,7 +6,8 @@ import 'package:flutter_theme_changer_erfan/src/theme_controller.dart';
 
 void main() {
   group('ThemeChanger Widget', () {
-    testWidgets('renders correctly with default theme', (WidgetTester tester) async {
+    testWidgets('renders correctly with default theme',
+        (WidgetTester tester) async {
       await tester.pumpWidget(
         ProviderScope(
           child: ThemeChanger(
@@ -29,7 +30,8 @@ void main() {
       expect(find.byType(Scaffold), findsOneWidget);
     });
 
-    testWidgets('updates theme when color changes', (WidgetTester tester) async {
+    testWidgets('updates theme when color changes',
+        (WidgetTester tester) async {
       await tester.pumpWidget(
         ProviderScope(
           child: ThemeChanger(
@@ -49,8 +51,9 @@ void main() {
         ),
       );
 
-      final initialColor = tester.widget<ColoredBox>(find.byType(ColoredBox)).color;
-      
+      final initialColor =
+          tester.widget<ColoredBox>(find.byType(ColoredBox)).color;
+
       await tester.runAsync(() async {
         final container = ProviderScope.containerOf(
           tester.element(find.byType(ThemeChanger)),
@@ -60,7 +63,8 @@ void main() {
 
       await tester.pumpAndSettle();
 
-      final updatedColor = tester.widget<ColoredBox>(find.byType(ColoredBox)).color;
+      final updatedColor =
+          tester.widget<ColoredBox>(find.byType(ColoredBox)).color;
       expect(updatedColor, isNot(equals(initialColor)));
       expect(updatedColor.r > updatedColor.b, isTrue);
     });

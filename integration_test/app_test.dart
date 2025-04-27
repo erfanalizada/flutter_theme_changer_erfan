@@ -35,7 +35,8 @@ void main() {
       final updatedAppBarContext = tester.element(find.byType(AppBar));
 
       // Save the updated primary color
-      final updatedPrimaryColor = Theme.of(updatedAppBarContext).colorScheme.primary;
+      final updatedPrimaryColor =
+          Theme.of(updatedAppBarContext).colorScheme.primary;
 
       // Verify that the theme color actually changed
       expect(updatedPrimaryColor, isNot(equals(initialPrimaryColor)));

@@ -12,7 +12,8 @@ import 'package:flutter_theme_changer_erfan/src/theme_changer.dart';
 import 'package:flutter_theme_changer_erfan/src/theme_controller.dart';
 
 void main() {
-  testWidgets('Theme Changer basic widget rendering test', (WidgetTester tester) async {
+  testWidgets('Theme Changer basic widget rendering test',
+      (WidgetTester tester) async {
     await tester.pumpWidget(
       ProviderScope(
         child: ThemeChanger(
@@ -63,8 +64,9 @@ void main() {
     await tester.pumpAndSettle();
 
     // Get the initial color scheme
-    final initialColor = tester.widget<ColoredBox>(find.byType(ColoredBox)).color;
-    
+    final initialColor =
+        tester.widget<ColoredBox>(find.byType(ColoredBox)).color;
+
     // Update the theme color using the provider
     await tester.runAsync(() async {
       final container = ProviderScope.containerOf(
@@ -76,9 +78,10 @@ void main() {
     await tester.pumpAndSettle();
 
     // Verify the color has changed
-    final updatedColor = tester.widget<ColoredBox>(find.byType(ColoredBox)).color;
+    final updatedColor =
+        tester.widget<ColoredBox>(find.byType(ColoredBox)).color;
     expect(updatedColor, isNot(equals(initialColor)));
-    
+
     // Verify the new color is in the red spectrum
     expect(updatedColor.r > updatedColor.b, isTrue);
     expect(updatedColor.r > updatedColor.g, isTrue);

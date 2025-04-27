@@ -6,7 +6,8 @@ class ThemeNotifier extends StateNotifier<ThemeData> {
 
   static ThemeData _createTheme(Color color) {
     final brightness = ThemeData.estimateBrightnessForColor(color);
-    final contrastColor = brightness == Brightness.light ? Colors.black : Colors.white;
+    final contrastColor =
+        brightness == Brightness.light ? Colors.black : Colors.white;
 
     return ThemeData(
       colorScheme: ColorScheme.fromSeed(
@@ -14,7 +15,7 @@ class ThemeNotifier extends StateNotifier<ThemeData> {
         brightness: Brightness.light,
       ),
       useMaterial3: true,
-      
+
       // Button themes
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
@@ -54,7 +55,8 @@ class ThemeNotifier extends StateNotifier<ThemeData> {
       enabledBorder: OutlineInputBorder(
         borderSide: BorderSide(color: Colors.grey.shade400),
       ),
-      focusedErrorBorder: OutlineInputBorder(borderSide: BorderSide(color: color)),
+      focusedErrorBorder:
+          OutlineInputBorder(borderSide: BorderSide(color: color)),
       errorBorder: const OutlineInputBorder(
         borderSide: BorderSide(color: Colors.red),
       ),

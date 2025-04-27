@@ -5,7 +5,8 @@ import 'package:flutter_theme_changer_erfan/src/theme_color_picker_widget.dart';
 import 'dart:math';
 
 void main() {
-  testWidgets('Theme picker performance test - expansion animation', (WidgetTester tester) async {
+  testWidgets('Theme picker performance test - expansion animation',
+      (WidgetTester tester) async {
     await tester.pumpWidget(
       const ProviderScope(
         child: MaterialApp(
@@ -19,17 +20,18 @@ void main() {
     );
 
     final stopwatch = Stopwatch()..start();
-    
+
     // Measure expansion animation
     await tester.tap(find.byType(InkWell).first);
     await tester.pumpAndSettle(const Duration(milliseconds: 50));
-    
+
     stopwatch.stop();
-    
+
     expect(stopwatch.elapsedMilliseconds, lessThan(300));
   });
 
-  testWidgets('Theme picker performance test - rapid theme changes', (WidgetTester tester) async {
+  testWidgets('Theme picker performance test - rapid theme changes',
+      (WidgetTester tester) async {
     await tester.pumpWidget(
       const ProviderScope(
         child: MaterialApp(
@@ -56,7 +58,8 @@ void main() {
     final colorOptions = allInkWells.evaluate().toList();
     final colorCount = colorOptions.length - 1; // minus main button
 
-    expect(colorCount, greaterThan(0), reason: 'Expected color options, found none');
+    expect(colorCount, greaterThan(0),
+        reason: 'Expected color options, found none');
 
     final stopwatch = Stopwatch()..start();
 
@@ -76,10 +79,11 @@ void main() {
 
     final averageTime = stopwatch.elapsedMilliseconds / min(3, colorCount);
     expect(averageTime, lessThan(100),
-      reason: 'Average color change time ($averageTime ms) exceeded limit');
+        reason: 'Average color change time ($averageTime ms) exceeded limit');
   });
 
-  testWidgets('Theme picker performance test - memory usage', (WidgetTester tester) async {
+  testWidgets('Theme picker performance test - memory usage',
+      (WidgetTester tester) async {
     await tester.pumpWidget(
       const ProviderScope(
         child: MaterialApp(

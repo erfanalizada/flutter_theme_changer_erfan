@@ -18,7 +18,8 @@ void main() {
 
       // Initially, only the main button should be visible
       expect(find.byType(InkWell), findsOneWidget);
-      expect(find.byType(Card), findsNothing); // Color picker should be hidden initially
+      expect(find.byType(Card),
+          findsNothing); // Color picker should be hidden initially
     });
 
     testWidgets('shows color options when tapped', (WidgetTester tester) async {
@@ -42,7 +43,8 @@ void main() {
       expect(find.byType(InkWell), findsNWidgets(7));
     });
 
-    testWidgets('changes theme on color selection', (WidgetTester tester) async {
+    testWidgets('changes theme on color selection',
+        (WidgetTester tester) async {
       await tester.pumpWidget(
         const ProviderScope(
           child: MaterialApp(
@@ -70,7 +72,7 @@ void main() {
 
     testWidgets('accepts custom colors', (WidgetTester tester) async {
       final customColors = [Colors.purple, Colors.orange, Colors.teal];
-      
+
       await tester.pumpWidget(
         ProviderScope(
           child: MaterialApp(
@@ -92,4 +94,3 @@ void main() {
     });
   });
 }
-

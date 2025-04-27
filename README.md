@@ -40,7 +40,7 @@ Add this to your package's `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  flutter_theme_changer_erfan: ^0.0.1+1
+  flutter_theme_changer_erfan: ^0.0.1+7
 ```
 Then run `flutter pub get` to install the package.
 

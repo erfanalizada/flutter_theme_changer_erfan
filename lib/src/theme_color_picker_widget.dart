@@ -18,10 +18,12 @@ class ThemeColorPickerWidget extends ConsumerStatefulWidget {
   final List<Color> availableColors;
 
   @override
-  ConsumerState<ThemeColorPickerWidget> createState() => _ThemeColorPickerWidgetState();
+  ConsumerState<ThemeColorPickerWidget> createState() =>
+      _ThemeColorPickerWidgetState();
 }
 
-class _ThemeColorPickerWidgetState extends ConsumerState<ThemeColorPickerWidget> {
+class _ThemeColorPickerWidgetState
+    extends ConsumerState<ThemeColorPickerWidget> {
   bool _isExpanded = false;
 
   void _toggleExpanded() {

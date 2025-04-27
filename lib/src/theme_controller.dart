@@ -12,7 +12,8 @@ class ThemeNotifier extends StateNotifier<ThemeData> {
 
   static ThemeData _createTheme(Color color) {
     final brightness = ThemeData.estimateBrightnessForColor(color);
-    final contrastColor = brightness == Brightness.light ? Colors.black : Colors.white;
+    final contrastColor =
+        brightness == Brightness.light ? Colors.black : Colors.white;
 
     return ThemeData(
       colorScheme: ColorScheme.fromSeed(
@@ -20,7 +21,6 @@ class ThemeNotifier extends StateNotifier<ThemeData> {
         brightness: Brightness.light,
       ),
       useMaterial3: true,
-      
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           backgroundColor: color,
@@ -33,10 +33,8 @@ class ThemeNotifier extends StateNotifier<ThemeData> {
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(foregroundColor: color),
       ),
-
       inputDecorationTheme: _createInputDecorationTheme(color),
       dropdownMenuTheme: _createDropdownMenuTheme(color),
-
       appBarTheme: AppBarTheme(
         backgroundColor: color,
         foregroundColor: contrastColor,
@@ -57,7 +55,8 @@ class ThemeNotifier extends StateNotifier<ThemeData> {
       enabledBorder: OutlineInputBorder(
         borderSide: BorderSide(color: Colors.grey.shade400),
       ),
-      focusedErrorBorder: OutlineInputBorder(borderSide: BorderSide(color: color)),
+      focusedErrorBorder:
+          OutlineInputBorder(borderSide: BorderSide(color: color)),
       errorBorder: const OutlineInputBorder(
         borderSide: BorderSide(color: Colors.red),
       ),
@@ -83,7 +82,8 @@ class ThemeNotifier extends StateNotifier<ThemeData> {
 
   Future<void> saveThemePreference() async {
     final prefs = await SharedPreferences.getInstance();
-    final colorValue = '#${state.colorScheme.primary.toARGB32().toRadixString(16).padLeft(8, '0')}';
+    final colorValue =
+        '#${state.colorScheme.primary.toARGB32().toRadixString(16).padLeft(8, '0')}';
     await prefs.setString(_themeColorKey, colorValue);
   }
 

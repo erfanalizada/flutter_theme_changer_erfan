@@ -1,3 +1,15 @@
+## 0.0.1+7
+
+* Fixed Yaml links and description length
+* Adjusted gif sizes
+* Fixed Dart formatting issues across multiple files:
+  - lib/dynamic_theme_picker.dart
+  - lib/src/theme_color_picker_widget.dart
+  - lib/src/theme_controller.dart
+  - lib/src/theme_dialog_button.dart
+  - lib/widgets/theme_controller.dart
+  - Integration and test files
+
 ## 0.0.1+6
 
 * Adjusted gif sizes
@@ -31,4 +43,5 @@
 * Basic theme switching functionality
 * Support for colourful and darkthemes
 * Customizable widget appearance
+
 

@@ -25,8 +25,10 @@ void main() {
       await prefs.setString('theme_color', '#FF0000'); // Red color
 
       await themeNotifier.loadSavedTheme();
-      expect(themeNotifier.state.colorScheme.primary.r > 
-             themeNotifier.state.colorScheme.primary.b, isTrue);
+      expect(
+          themeNotifier.state.colorScheme.primary.r >
+              themeNotifier.state.colorScheme.primary.b,
+          isTrue);
     });
   });
 }
