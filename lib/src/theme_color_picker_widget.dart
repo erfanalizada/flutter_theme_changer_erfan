@@ -13,9 +13,12 @@ class ThemeColorPickerWidget extends ConsumerStatefulWidget {
       Colors.purple,
       Colors.pink,
     ],
+    this.gradientColors = const [],
   });
 
   final List<Color> availableColors;
+  /// List of gradient color sets, each containing 2-4 colors
+  final List<List<Color>> gradientColors;
 
   @override
   ConsumerState<ThemeColorPickerWidget> createState() =>
@@ -55,9 +58,12 @@ class _ThemeColorPickerWidgetState
                   child: Wrap(
                     spacing: 12,
                     runSpacing: 12,
-                    children: widget.availableColors
-                        .map((color) => _buildColorButton(color))
-                        .toList(),
+                    children: [
+                      ...widget.availableColors
+                          .map((color) => _buildColorButton(color)),
+                      ...widget.gradientColors
+                          .map((colors) => _buildGradientButton(colors)),
+                    ],
                   ),
                 ),
               ),
@@ -80,6 +86,37 @@ class _ThemeColorPickerWidgetState
         height: 40,
         decoration: BoxDecoration(
           color: color,
+          shape: BoxShape.circle,
+          border: Border.all(color: Colors.white, width: 2),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.2),
+              blurRadius: 4,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildGradientButton(List<Color> colors) {
+    return InkWell(
+      onTap: () {
+        // For gradients, we'll use the first color as the primary theme color
+        ref.read(themeProvider.notifier).updateTheme(colors.first);
+        _toggleExpanded();
+      },
+      borderRadius: BorderRadius.circular(20),
+      child: Container(
+        width: 40,
+        height: 40,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: colors,
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
           shape: BoxShape.circle,
           border: Border.all(color: Colors.white, width: 2),
           boxShadow: [

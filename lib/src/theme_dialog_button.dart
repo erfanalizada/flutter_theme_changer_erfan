@@ -13,11 +13,15 @@ class ThemeDialogButton extends StatelessWidget {
       Colors.purple,
       Colors.pink,
     ],
+    this.gradientColors = const [],
     this.icon = const Icon(Icons.palette),
   });
 
   /// The list of colors to display in the color picker dialog
   final List<Color> availableColors;
+  
+  /// The list of gradient color sets, each containing 2-4 colors
+  final List<List<Color>> gradientColors;
   
   /// The icon to display in the button
   final Widget icon;
@@ -34,6 +38,7 @@ class ThemeDialogButton extends StatelessWidget {
               padding: const EdgeInsets.all(20.0),
               child: ThemeColorPickerWidget(
                 availableColors: availableColors,
+                gradientColors: gradientColors,
               ),
             ),
           ),
@@ -42,4 +47,5 @@ class ThemeDialogButton extends StatelessWidget {
     );
   }
 }
+
 
