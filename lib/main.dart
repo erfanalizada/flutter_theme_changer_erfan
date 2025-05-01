@@ -27,7 +27,7 @@ class ThemeChangerDemo extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Theme Changer Demo'),
         actions: const [
-          ThemeDialogButton(),
+          ThemeDialogButton(availableColors: [Colors.red, Colors.blue, Colors.green],),
         ],
       ),
       body: const Center(
