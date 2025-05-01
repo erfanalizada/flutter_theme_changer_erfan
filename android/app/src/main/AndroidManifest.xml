@@ -3,6 +3,12 @@
         android:label="flutter_theme_changer_erfan"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+        
+        <!-- Disable Impeller for now -->
+        <meta-data
+            android:name="io.flutter.embedding.android.EnableImpeller"
+            android:value="false" />
+            
         <activity
             android:name=".MainActivity"
             android:exported="true"

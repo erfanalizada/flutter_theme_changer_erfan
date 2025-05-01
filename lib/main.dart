@@ -1,19 +1,95 @@
+import 'dart:ui';
+import 'dart:developer' as developer;
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_theme_changer_erfan/dynamic_theme_picker.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  
+  // Log Flutter engine info
+  developer.log('Flutter engine: ${PlatformDispatcher.instance.views.first.platformDispatcher.semanticsEnabled}', name: 'performance');
+  developer.log('Using Impeller: ${_isUsingImpeller()}', name: 'performance');
+  
+  // Add performance observer
+  final observer = _PerformanceObserver();
+  WidgetsBinding.instance.addObserver(observer);
+  
   runApp(const ProviderScope(child: MyApp()));
 }
 
+// Helper to detect if Impeller is being used
+bool _isUsingImpeller() {
+  try {
+    // This is a hacky way to detect Impeller, but there's no official API yet
+    return PlatformDispatcher.instance.toString().contains('Impeller');
+  } catch (_) {
+    return false;
+  }
+}
+
+// Performance observer class
+class _PerformanceObserver with WidgetsBindingObserver {
+  Stopwatch? _frameStopwatch;
+  
+  @override
+  void didBeginFrame() {
+    _frameStopwatch = Stopwatch()..start();
+    developer.log('Frame started', name: 'performance');
+  }
+  
+  @override
+  void didDrawFrame() {
+    if (_frameStopwatch != null) {
+      final elapsed = _frameStopwatch!.elapsedMilliseconds;
+      if (elapsed > 16) { // Frame took longer than 16ms (60fps)
+        developer.log('Slow frame: ${elapsed}ms', name: 'performance');
+      }
+      _frameStopwatch = null;
+    }
+  }
+}
+
+// Wrap your app with a performance monitor
+class PerformanceMonitorWidget extends StatefulWidget {
+  final Widget child;
+  
+  const PerformanceMonitorWidget({Key? key, required this.child}) : super(key: key);
+  
+  @override
+  State<PerformanceMonitorWidget> createState() => _PerformanceMonitorWidgetState();
+}
+
+class _PerformanceMonitorWidgetState extends State<PerformanceMonitorWidget> {
+  @override
+  Widget build(BuildContext context) {
+    return widget.child;
+  }
+  
+  @override
+  void initState() {
+    super.initState();
+    developer.log('App UI initialized', name: 'performance');
+    
+    // Log first frame timing
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      developer.log('First frame rendered', name: 'performance');
+    });
+  }
+}
+
+// Modify your MyApp class to use the performance monitor
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const ThemeChanger(
-      title: 'Theme Changer Demo',
-      child: ThemeChangerDemo(),
+    return const PerformanceMonitorWidget(
+      child: ThemeChanger(
+        title: 'Theme Dialog Demo',
+        child: ThemeChangerDemo(),
+      ),
     );
   }
 }
@@ -136,6 +212,11 @@ class _ThemeChangerDemoState extends State<ThemeChangerDemo> {
     );
   }
 }
+
+
+
+
+
 
 
 
