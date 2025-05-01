@@ -8,22 +8,29 @@ class ThemeNotifier extends StateNotifier<ThemeData> {
     loadSavedTheme();
   }
 
+  // Keep track of the actual selected color
+  Color _selectedColor = Colors.blue;
+  
   static const String _themeColorKey = 'theme_color';
+  static const String _themeBrightnessKey = 'theme_brightness';
 
-  static ThemeData _createTheme(Color color) {
-    final brightness = ThemeData.estimateBrightnessForColor(color);
+  static ThemeData _createTheme(Color color, [Brightness? forcedBrightness]) {
+    final brightness = forcedBrightness ?? ThemeData.estimateBrightnessForColor(color);
     final contrastColor =
         brightness == Brightness.light ? Colors.black : Colors.white;
 
     return ThemeData(
       colorScheme: ColorScheme.fromSeed(
         seedColor: color,
-        brightness: Brightness.light,
+        brightness: brightness,
+        // Explicitly set primary to the exact color to prevent Material's color algorithm from changing it
+        primary: color,
       ),
+      primaryColor: color, // Set primary color directly
       useMaterial3: true,
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          backgroundColor: color,
+          backgroundColor: color, // Use exact color
           foregroundColor: contrastColor,
         ),
       ),
@@ -82,19 +89,30 @@ class ThemeNotifier extends StateNotifier<ThemeData> {
 
   Future<void> saveThemePreference() async {
     final prefs = await SharedPreferences.getInstance();
-    final colorValue =
-        '#${state.colorScheme.primary.toARGB32().toRadixString(16).padLeft(8, '0')}';
-    await prefs.setString(_themeColorKey, colorValue);
+    // Store the EXACT selected color, not the one from the theme
+    await prefs.setInt(_themeColorKey, _selectedColor.value);
+    // Store the brightness value
+    await prefs.setBool(_themeBrightnessKey, 
+        state.colorScheme.brightness == Brightness.dark);
   }
 
   Future<void> loadSavedTheme() async {
     final prefs = await SharedPreferences.getInstance();
-    final colorString = prefs.getString(_themeColorKey);
-    if (colorString != null) {
+    final colorValue = prefs.getInt(_themeColorKey);
+    final isDark = prefs.getBool(_themeBrightnessKey);
+    
+    if (colorValue != null) {
       try {
-        final colorValue = int.parse(colorString.substring(1), radix: 16);
         final color = Color(colorValue);
-        state = _createTheme(color);
+        print('Loading color: 0x${color.value.toRadixString(16)}'); // Debug print
+        _selectedColor = color;
+        
+        // If brightness was saved, use it; otherwise calculate from color
+        final brightness = isDark != null 
+            ? (isDark ? Brightness.dark : Brightness.light)
+            : ThemeData.estimateBrightnessForColor(color);
+        
+        state = _createTheme(color, brightness);
       } catch (e) {
         // If there's an error parsing the color, keep the default theme
       }
@@ -102,8 +120,10 @@ class ThemeNotifier extends StateNotifier<ThemeData> {
   }
 
   void updateTheme(Color color) {
+    print('Saving color: 0x${color.value.toRadixString(16)}'); // Debug print
+    _selectedColor = color;
     state = _createTheme(color);
-    saveThemePreference(); // Save the theme whenever it's updated
+    saveThemePreference();
   }
 }
 
