@@ -2,7 +2,10 @@ import 'dart:ui';
 import 'dart:developer' as developer;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_theme_changer_erfan/dynamic_theme_picker.dart';
+import 'src/theme_changer.dart';
+import 'src/theme_color_picker_widget.dart';
+import 'src/theme_dialog_button.dart';
+import 'src/custom_color_picker_dialog.dart';
 import 'background_components_demo.dart'; // Import the new file
 
 void main() async {
@@ -107,6 +110,7 @@ class ThemeChangerDemo extends StatefulWidget {
 
 class _ThemeChangerDemoState extends State<ThemeChangerDemo> {
   int _selectedIndex = 0;
+  bool _toggleValue = false;
 
   void _onItemTapped(int index) {
     setState(() {
@@ -122,7 +126,6 @@ class _ThemeChangerDemoState extends State<ThemeChangerDemo> {
         actions: const [
           ThemeDialogButton(
             availableColors: [Colors.red, Colors.blue, Colors.green],
-            // Remove gradientColors parameter
           ),
         ],
       ),
@@ -133,7 +136,37 @@ class _ThemeChangerDemoState extends State<ThemeChangerDemo> {
             // Theme color picker widget
             const ThemeColorPickerWidget(
               availableColors: [Colors.red, Colors.blue, Colors.green],
-              // Remove gradientColors parameter
+            ),
+            const SizedBox(height: 40),
+
+            // Custom toggle widget that calls CustomColorPickerDialog
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text('Toggle Theme Picker:'),
+                const SizedBox(width: 16),
+                Switch(
+                  value: _toggleValue,
+                  onChanged: (value) {
+                    setState(() {
+                      _toggleValue = value;
+                    });
+                    if (value) {
+                      CustomColorPickerDialog.showColorPickerDialog(
+                        context,
+                        availableColors: [
+                          Colors.purple,
+                          Colors.orange,
+                          Colors.teal,
+                          Colors.pink,
+                          Colors.indigo,
+                          Colors.amber,
+                        ],
+                      );
+                    }
+                  },
+                ),
+              ],
             ),
             const SizedBox(height: 40),
 
@@ -196,6 +229,30 @@ class _ThemeChangerDemoState extends State<ThemeChangerDemo> {
               },
               child: const Text('View Background Components Demo'),
             ),
+            const SizedBox(height: 16),
+            
+            // Custom button that calls CustomColorPickerDialog
+            Container(
+              margin: const EdgeInsets.symmetric(vertical: 16),
+              child: ElevatedButton.icon(
+                onPressed: () => CustomColorPickerDialog.showColorPickerDialog(
+                  context,
+                  availableColors: [
+                    Colors.deepPurple,
+                    Colors.deepOrange,
+                    Colors.lightBlue,
+                    Colors.lightGreen,
+                    Colors.amber,
+                    Colors.brown,
+                  ],
+                ),
+                icon: const Icon(Icons.color_lens),
+                label: const Text('Custom Theme Picker'),
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                ),
+              ),
+            ),
           ],
         ),
       ),
@@ -225,6 +282,9 @@ class _ThemeChangerDemoState extends State<ThemeChangerDemo> {
     );
   }
 }
+
+
+
 
 
 

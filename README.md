@@ -3,12 +3,20 @@
 A Flutter package that allows you to easily change your app's theme color dynamically at runtime using Riverpod.  
 It provides both a **full theme changer wrapper** and **two beautiful theme picker widgets**!
 
+## ☕ Support
+
+If you find this package helpful, consider supporting my work:
+
+[![Buy Me a Coffee](https://img.shields.io/badge/Buy%20me%20a%20coffee-%23FFDD00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/erfan1)
+
 ## ✨  Features
 
 - 🎨 Dynamic primary color theme switching with Material 3 ColorScheme
-- 🧩 Two ready-to-use theme picker widgets:
+- 🧩 Three ready-to-use theme picker options:
   - `ThemeColorPickerWidget`: An expandable color picker that can be placed anywhere (Great for floating).
-  - `ThemeDialogButton`: A convenient AppBar button that shows colors in a dialog. Great for all common use cases.
+  - `ThemeDialogButton`: A convenient button that shows colors in a dialog. which is great for all common use cases.
+  - `CustomColorPickerDialog`: A static utility to show a theme picker from any custom widget or UI element. Could be triggert 
+                               from any custom button, icon, or widget.
 - 🌈 Allow users to pick from customizable color palettes
 - 🚀 Built with Flutter Riverpod 2.0 (StateNotifier based)
 - 🎯 Simple API and easy integration
@@ -44,9 +52,11 @@ Add this to your package's `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  flutter_theme_changer_erfan: ^0.0.1+8
+  flutter_theme_changer_erfan: ^0.0.2+9
 ```
 Then run `flutter pub get` to install the package.
+
+Or run `flutter pub add flutter_theme_changer_erfan` in your terminal.
 
 ## 🛠️ How to Use
 
@@ -59,7 +69,7 @@ void main() {
     const ProviderScope(
       child: ThemeChanger(
         title: 'My App',
-        defaultColor: Colors.purple, // Specify your default theme color
+        defaultColor: Colors.purple, // Specify your default theme color this is required!
         scaffoldColor: Colors.white, // Optional scaffold background color
         child: HomeScreen(),
       ),
@@ -89,9 +99,8 @@ AppBar(
 )
 ```
 
-## 🎨 Customizing Colors
-
-Both widgets accept custom colors:
+### Using ThemeColorPickerWidget
+Place the color picker widget anywhere in your app for a floating theme selection experience:
 
 ```dart
 // For ThemeColorPickerWidget
@@ -109,6 +118,108 @@ ThemeColorPickerWidget(
 // For ThemeDialogButton (coming soon)
 ```
 
+
+### 🎨 Custom Theme Picker Integration
+
+In addition to the built-in widgets, you can now trigger the theme color picker from any custom UI element using the `CustomColorPickerDialog`:
+
+### Basic Button Example
+
+```dart
+ElevatedButton(
+  onPressed: () => CustomColorPickerDialog.showColorPickerDialog(context),
+  child: Text('Change Theme'),
+)
+```
+
+### Icon Button Example
+
+```dart
+IconButton(
+  icon: Icon(Icons.palette),
+  onPressed: () => CustomColorPickerDialog.showColorPickerDialog(
+    context,
+    availableColors: [
+      Colors.purple,
+      Colors.orange,
+      Colors.teal,
+      Colors.pink,
+      Colors.indigo,
+    ],
+  ),
+  tooltip: 'Change Theme',
+)
+```
+
+### Custom Widget Example
+
+```dart
+GestureDetector(
+  onTap: () => CustomColorPickerDialog.showColorPickerDialog(context),
+  child: Container(
+    padding: EdgeInsets.all(12),
+    decoration: BoxDecoration(
+      color: Theme.of(context).colorScheme.primary,
+      borderRadius: BorderRadius.circular(8),
+    ),
+    child: Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(
+          Icons.format_paint,
+          color: Theme.of(context).colorScheme.onPrimary,
+        ),
+        SizedBox(width: 8),
+        Text(
+          'Custom Theme Selector',
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.onPrimary,
+          ),
+        ),
+      ],
+    ),
+  ),
+)
+```
+
+### Toggle Switch Example
+
+```dart
+bool _toggleValue = false;
+
+Switch(
+  value: _toggleValue,
+  onChanged: (value) {
+    setState(() {
+      _toggleValue = value;
+    });
+    if (value) {
+      CustomColorPickerDialog.showColorPickerDialog(
+        context,
+        availableColors: [
+          Colors.purple,
+          Colors.orange,
+          Colors.teal,
+          Colors.pink,
+          Colors.indigo,
+        ],
+      );
+    }
+  },
+)
+```
+
+### From Event Handlers
+
+```dart
+void onUserPreferenceChanged() {
+  CustomColorPickerDialog.showColorPickerDialog(context);
+}
+```
+
+This gives you complete flexibility to integrate theme changing functionality with your own UI components and interaction patterns.
+
+
 ## 📦 What's Inside
 
 Widget/File | Purpose
@@ -116,6 +227,7 @@ Widget/File | Purpose
 `ThemeChanger` | Wraps your app with dynamic theming
 `ThemeColorPickerWidget` | Expandable color picker that shows in-place
 `ThemeDialogButton` | AppBar button that shows colors in a dialog
+`CustomColorPickerDialog` | Static utility to show a theme picker from any widget
 `ThemeNotifier + themeProvider` | Riverpod logic for managing theme color
 
 
@@ -239,4 +351,9 @@ void main() {
 - Implements optimized color calculations
 - Leverages Flutter's Material 3 design system
 - Provides immediate visual feedback while processing complex themes
+
+
+
+
+
 
