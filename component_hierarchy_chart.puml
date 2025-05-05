@@ -1,0 +1,30 @@
+@startuml Component Hierarchy
+
+package "Flutter Theme Changer" {
+  class "MaterialApp" as App
+  class "ThemeChanger" as Changer
+  class "ThemeColorPickerWidget" as ColorPicker
+  class "ThemeDialogButton" as DialogButton
+  class "ProviderScope" as Scope
+  
+  ' User application components
+  class "User's App Root" as UserRoot
+  class "User's Screens" as UserScreens
+  class "User's Widgets" as UserWidgets
+  
+  ' Hierarchy
+  Scope +-- UserRoot
+  UserRoot +-- Changer
+  Changer +-- App
+  App +-- UserScreens
+  UserScreens +-- UserWidgets
+  UserScreens +-- ColorPicker
+  UserScreens +-- DialogButton
+  
+  note right of Scope: Riverpod provider container
+  note right of Changer: Consumes theme from provider
+  note right of ColorPicker: Can be placed anywhere in widget tree
+  note right of DialogButton: Typically placed in AppBar
+}
+
+@enduml

@@ -1,0 +1,53 @@
+@startuml Architecture Diagram
+
+skinparam linetype ortho
+
+package "UI Layer" {
+  [ThemeColorPickerWidget] as ColorPicker
+  [ThemeDialogButton] as DialogButton
+  [ThemeChanger] as Changer
+}
+
+package "State Management" {
+  [ThemeNotifier] as Notifier
+  [themeProvider] as Provider
+}
+
+package "Data Layer" {
+  [SharedPreferences] as Prefs
+}
+
+package "Processing" {
+  [Isolate] as Isolate
+  [_generateThemeData] as Generator
+}
+
+package "Flutter Framework" {
+  [MaterialApp] as App
+  [Theme System] as ThemeSystem
+}
+
+package "User Application" {
+  [User Widgets] as UserWidgets
+}
+
+' Connections
+ColorPicker --> Provider : reads
+DialogButton --> Provider : reads
+Changer --> Provider : watches
+Provider --> Notifier : exposes
+Notifier --> Generator : calls
+Notifier --> Isolate : uses for processing
+Notifier --> Prefs : saves/loads preferences
+Notifier --> ThemeSystem : updates
+Changer --> App : configures
+App --> ThemeSystem : applies theme
+ThemeSystem --> UserWidgets : theme propagates to
+
+note right of Notifier: StateNotifier that manages ThemeData
+note right of Provider: Riverpod provider that exposes ThemeNotifier
+note right of Isolate: Used for off-main-thread processing
+note bottom of Prefs: Persists theme preferences
+note bottom of ThemeSystem: Flutter's built-in theming mechanism
+
+@enduml
