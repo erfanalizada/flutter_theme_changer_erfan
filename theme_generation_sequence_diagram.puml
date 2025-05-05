@@ -1,0 +1,57 @@
+@startuml Theme Generation Sequence
+
+actor User
+participant "ThemeColorPickerWidget" as Widget
+participant "ThemeNotifier" as Notifier
+participant "Main Thread" as MainThread
+participant "Isolate" as Isolate
+database "SharedPreferences" as Prefs
+participant "MaterialApp" as App
+participant "UI Components" as UI
+
+User -> Widget: Tap color
+activate Widget
+Widget -> Notifier: updateTheme(color)
+activate Notifier
+
+' Immediate update on main thread
+Notifier -> MainThread: Generate basic ThemeData
+activate MainThread
+MainThread --> Notifier: Return ThemeData
+deactivate MainThread
+Notifier -> Notifier: state = newTheme
+note right: First state update
+
+' Theme propagation to UI (immediate)
+Notifier -> App: ThemeData updated
+App -> UI: Propagate new theme
+UI --> User: Visual feedback (basic theme)
+note right: User sees immediate\ncolor change
+
+' Background processing
+Notifier -> Notifier: updateThemeOffMainThread(color)
+Notifier -> Prefs: _saveThemePreference(color)
+activate Prefs
+Prefs --> Notifier: Preference saved
+deactivate Prefs
+
+Notifier -> Isolate: compute(_generateThemeData, color)
+activate Isolate
+note right: Heavy processing\noff main thread
+Isolate --> Notifier: Return complete ThemeData
+deactivate Isolate
+
+Notifier -> Notifier: state = newTheme
+note right: Second state update
+
+' Theme propagation to UI (complete)
+Notifier -> App: ThemeData updated (complete)
+App -> UI: Propagate complete theme
+UI --> User: Visual feedback (refined theme)
+note right: User sees fully\nprocessed theme
+
+deactivate Notifier
+Widget --> User: Animation completes
+deactivate Widget
+
+@enduml
