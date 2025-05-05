@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/foundation.dart';
 import 'dart:developer' as developer;
-import 'dart:ui' as ui;
 
 ThemeData _generateThemeData(Color primaryColor) {
   // Move the theme generation logic here
@@ -41,7 +40,6 @@ class ThemeNotifier extends StateNotifier<ThemeData> {
     );
   })();
 
-  bool _isFirstUpdate = true;
 
   Future<void> updateThemeOffMainThread(Color primaryColor) async {
     developer.log('Starting theme update', name: 'performance');
@@ -76,11 +74,13 @@ class ThemeNotifier extends StateNotifier<ThemeData> {
     return _prefsCache!;
   }
 
-  Future<void> _saveThemePreference(Color color) async {
-    final prefs = await _getPrefs();
-    final colorString = '#${color.value.toRadixString(16).padLeft(8, '0')}';
-    await prefs.setString('theme_color', colorString);
-  }
+ Future<void> _saveThemePreference(Color color) async {
+  final prefs = await _getPrefs();
+  final argb = color.toARGB32();
+  final colorString = '#${argb.toRadixString(16).padLeft(8, '0')}';
+  await prefs.setString('theme_color', colorString);
+}
+
 
   Future<void> loadSavedTheme() async {
     final prefs = await SharedPreferences.getInstance();
@@ -126,11 +126,6 @@ class ThemeNotifier extends StateNotifier<ThemeData> {
   }
 
   // Helper method for contrast color
-  Color _getContrastColor(Color backgroundColor) {
-    return backgroundColor.computeLuminance() > 0.5
-        ? Colors.black
-        : Colors.white;
-  }
 }
 
 final themeProvider = StateNotifierProvider<ThemeNotifier, ThemeData>((ref) {

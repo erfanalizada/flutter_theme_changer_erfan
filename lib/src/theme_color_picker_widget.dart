@@ -1,4 +1,3 @@
-import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'theme_controller.dart';
@@ -108,13 +107,6 @@ class _ThemeColorPickerWidgetState
   // Keep _buildColorButton but remove _buildGradientButton
 
   // Helper method to generate stops for distinct color bands
-  List<double> _generateDistinctStops(int colorCount) {
-    List<double> stops = [];
-    for (int i = 0; i < colorCount; i++) {
-      stops.add(i / (colorCount - 1));
-    }
-    return stops;
-  }
 
   Widget _buildMainButton(ThemeData currentTheme) {
     return InkWell(

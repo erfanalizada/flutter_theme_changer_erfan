@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_theme_changer_erfan/src/theme_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,7 +15,7 @@ void main() {
     });
 
     test('Theme should be saved when updated', () async {
-      await themeNotifier.saveThemePreference();
+      themeNotifier.updateTheme(Colors.red);
       final prefs = await SharedPreferences.getInstance();
       expect(prefs.getString('theme_color'), isNotNull);
     });
@@ -32,3 +33,5 @@ void main() {
     });
   });
 }
+
+
