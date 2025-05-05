@@ -23,24 +23,27 @@ ThemeData _generateThemeData(Color primaryColor) {
 }
 
 class ThemeNotifier extends StateNotifier<ThemeData> {
-  ThemeNotifier() : super(_defaultTheme) {
+  Color _defaultColor = Colors.blue; // Default fallback, will be overridden
+  bool _hasUserSelectedColor = false; // Track if user has selected a color
+
+  ThemeNotifier() : super(_generateThemeData(Colors.blue)) {
     // Load saved theme asynchronously without blocking
     _loadSavedThemeAsync();
   }
 
-  static final _defaultTheme = (() {
-    final colorScheme = ColorScheme.fromSeed(seedColor: Colors.blue);
-    return ThemeData(
-      colorScheme: colorScheme,
-      useMaterial3: true,
-      appBarTheme: AppBarTheme(
-        backgroundColor: colorScheme.primary,
-        foregroundColor: colorScheme.onPrimary,
-      ),
-    );
-  })();
+  // Method to set the default color from ThemeChanger
+  void setDefaultColor(Color color) {
+    _defaultColor = color;
+    // Only update the theme if user hasn't selected a color and we haven't loaded a saved theme
+    if (!_hasUserSelectedColor && state.colorScheme.primary == Colors.blue) {
+      state = _generateThemeData(color);
+    }
+  }
 
   Future<void> updateThemeOffMainThread(Color primaryColor) async {
+    // Mark that user has selected a color
+    _hasUserSelectedColor = true;
+    
     developer.log('Starting theme update', name: 'performance');
     final startTime = DateTime.now();
 
@@ -87,9 +90,15 @@ class ThemeNotifier extends StateNotifier<ThemeData> {
       try {
         final colorValue = int.parse(colorString.substring(1), radix: 16);
         final color = Color(colorValue);
+        _hasUserSelectedColor = true; // Mark that we have a saved user selection
         updateThemeOffMainThread(color);
       } catch (e) {
         // If parsing fails, keep the default theme
+      }
+    } else {
+      // No saved theme, use the default color
+      if (!_hasUserSelectedColor) {
+        updateThemeOffMainThread(_defaultColor);
       }
     }
   }
@@ -103,6 +112,9 @@ class ThemeNotifier extends StateNotifier<ThemeData> {
 
   // Add this method back for compatibility
   void updateTheme(Color primaryColor) {
+    // Mark that user has selected a color
+    _hasUserSelectedColor = true;
+    
     // For better performance, use the off-main-thread version
     updateThemeOffMainThread(primaryColor);
 
@@ -127,5 +139,9 @@ class ThemeNotifier extends StateNotifier<ThemeData> {
 }
 
 final themeProvider = StateNotifierProvider<ThemeNotifier, ThemeData>((ref) {
+  // This will be initialized with the default color from ThemeChanger
+  // The actual color will be set when ThemeChanger is created
   return ThemeNotifier();
 });
+
+// Remove the family provider since we'll initialize the main provider with the default color

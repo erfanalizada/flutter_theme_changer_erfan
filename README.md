@@ -116,7 +116,7 @@ class HomeScreen extends StatelessWidget {
 ```
 
 ### Basic Setup
-Wrap your app with ThemeChanger:
+Wrap your app with ThemeChanger and specify a default color:
 
 ```dart
 void main() {
@@ -124,6 +124,7 @@ void main() {
     const ProviderScope(
       child: ThemeChanger(
         title: 'My App',
+        defaultColor: Colors.purple, // Specify your default theme color
         child: HomeScreen(),
       ),
     ),
@@ -197,5 +198,6 @@ Erfan Alizada. Developed with ❤️ using Flutter and Riverpod.
 ## 📄 License MIT
 This project is licensed under the MIT License.
 See the LICENSE file for more details.
+
 
 

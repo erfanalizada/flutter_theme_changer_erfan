@@ -81,7 +81,7 @@ class _PerformanceMonitorWidgetState extends State<PerformanceMonitorWidget> {
   }
 }
 
-// Modify your MyApp class to use the performance monitor
+// Modify your MyApp class to use the performance monitor and pass required defaultColor
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -90,6 +90,7 @@ class MyApp extends StatelessWidget {
     return const PerformanceMonitorWidget(
       child: ThemeChanger(
         title: 'Theme Dialog Demo',
+        defaultColor: Color.fromARGB(255, 198, 255, 64), // Required default color
         child: ThemeChangerDemo(),
       ),
     );
@@ -208,3 +209,4 @@ class _ThemeChangerDemoState extends State<ThemeChangerDemo> {
     );
   }
 }
+
