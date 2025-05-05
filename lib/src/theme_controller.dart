@@ -40,7 +40,6 @@ class ThemeNotifier extends StateNotifier<ThemeData> {
     );
   })();
 
-
   Future<void> updateThemeOffMainThread(Color primaryColor) async {
     developer.log('Starting theme update', name: 'performance');
     final startTime = DateTime.now();
@@ -74,13 +73,12 @@ class ThemeNotifier extends StateNotifier<ThemeData> {
     return _prefsCache!;
   }
 
- Future<void> _saveThemePreference(Color color) async {
-  final prefs = await _getPrefs();
-  final argb = color.toARGB32();
-  final colorString = '#${argb.toRadixString(16).padLeft(8, '0')}';
-  await prefs.setString('theme_color', colorString);
-}
-
+  Future<void> _saveThemePreference(Color color) async {
+    final prefs = await _getPrefs();
+    final argb = color.toARGB32();
+    final colorString = '#${argb.toRadixString(16).padLeft(8, '0')}';
+    await prefs.setString('theme_color', colorString);
+  }
 
   Future<void> loadSavedTheme() async {
     final prefs = await SharedPreferences.getInstance();
