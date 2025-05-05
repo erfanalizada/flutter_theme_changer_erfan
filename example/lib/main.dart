@@ -13,6 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const ThemeChanger(
       title: 'Theme Dialog Demo',
+      defaultColor: Colors.blue,
       child: HomeScreen(),
     );
   }

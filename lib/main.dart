@@ -94,7 +94,8 @@ class MyApp extends StatelessWidget {
     return const PerformanceMonitorWidget(
       child: ThemeChanger(
         title: 'Theme Dialog Demo',
-        defaultColor: Color.fromARGB(255, 198, 255, 64), // Required default color
+        defaultColor:
+            Color.fromARGB(255, 198, 255, 64), // Required default color
         child: ThemeChangerDemo(),
       ),
     );
@@ -214,9 +215,9 @@ class _ThemeChangerDemoState extends State<ThemeChangerDemo> {
                 ),
               ),
             ),
-            
+
             const SizedBox(height: 24),
-            
+
             // Button to navigate to the background components demo
             ElevatedButton(
               onPressed: () {
@@ -230,7 +231,7 @@ class _ThemeChangerDemoState extends State<ThemeChangerDemo> {
               child: const Text('View Background Components Demo'),
             ),
             const SizedBox(height: 16),
-            
+
             // Custom button that calls CustomColorPickerDialog
             Container(
               margin: const EdgeInsets.symmetric(vertical: 16),
@@ -249,7 +250,8 @@ class _ThemeChangerDemoState extends State<ThemeChangerDemo> {
                 icon: const Icon(Icons.color_lens),
                 label: const Text('Custom Theme Picker'),
                 style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                 ),
               ),
             ),
@@ -282,11 +284,3 @@ class _ThemeChangerDemoState extends State<ThemeChangerDemo> {
     );
   }
 }
-
-
-
-
-
-
-
-

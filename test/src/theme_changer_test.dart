@@ -12,6 +12,7 @@ void main() {
         ProviderScope(
           child: ThemeChanger(
             title: 'Test App',
+            defaultColor: Colors.blue,
             child: Scaffold(
               appBar: AppBar(
                 title: const Text('Test Header'),
@@ -36,6 +37,7 @@ void main() {
         ProviderScope(
           child: ThemeChanger(
             title: 'Test App',
+            defaultColor: Colors.blue,
             child: Consumer(
               builder: (context, ref, _) {
                 final theme = ref.watch(themeProvider);

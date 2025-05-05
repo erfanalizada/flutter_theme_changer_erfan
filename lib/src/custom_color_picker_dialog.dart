@@ -3,12 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'theme_controller.dart';
 
 /// A dialog that displays color options for theme selection.
-/// 
+///
 /// This widget can be shown from any custom button or widget using the static
 /// [showColorPickerDialog] method.
 class CustomColorPickerDialog {
   /// Shows a color picker dialog that allows users to select a theme color.
-  /// 
+  ///
   /// Example usage:
   /// ```dart
   /// ElevatedButton(
@@ -81,7 +81,7 @@ class _ColorPickerContent extends ConsumerWidget {
                   border: Border.all(color: Colors.white, width: 2),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.2),
+                      color: Colors.black.withValues(alpha: 0.2),
                       blurRadius: 4,
                       offset: const Offset(0, 2),
                     ),

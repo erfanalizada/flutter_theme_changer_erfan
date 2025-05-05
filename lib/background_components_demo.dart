@@ -6,10 +6,12 @@ class BackgroundComponentsDemo extends ConsumerStatefulWidget {
   const BackgroundComponentsDemo({super.key});
 
   @override
-  ConsumerState<BackgroundComponentsDemo> createState() => _BackgroundComponentsDemoState();
+  ConsumerState<BackgroundComponentsDemo> createState() =>
+      _BackgroundComponentsDemoState();
 }
 
-class _BackgroundComponentsDemoState extends ConsumerState<BackgroundComponentsDemo> {
+class _BackgroundComponentsDemoState
+    extends ConsumerState<BackgroundComponentsDemo> {
   int _selectedIndex = 0;
   bool _expanded = false;
 
@@ -23,10 +25,10 @@ class _BackgroundComponentsDemoState extends ConsumerState<BackgroundComponentsD
           actions: const [
             ThemeDialogButton(
               availableColors: [
-                Colors.blue, 
-                Colors.red, 
-                Colors.green, 
-                Colors.purple, 
+                Colors.blue,
+                Colors.red,
+                Colors.green,
+                Colors.purple,
                 Colors.orange,
                 Colors.teal,
                 Colors.brown,
@@ -59,7 +61,8 @@ class _BackgroundComponentsDemoState extends ConsumerState<BackgroundComponentsD
               ),
               ListTile(
                 title: const Text('Current Theme Colors'),
-                subtitle: Text('Primary: ${Theme.of(context).colorScheme.primary}'),
+                subtitle:
+                    Text('Primary: ${Theme.of(context).colorScheme.primary}'),
                 onTap: () => Navigator.pop(context),
               ),
               ListTile(
@@ -73,10 +76,10 @@ class _BackgroundComponentsDemoState extends ConsumerState<BackgroundComponentsD
           children: [
             // First tab - Surface components
             _buildSurfacesTab(context),
-            
+
             // Second tab - Dialog components
             _buildDialogsTab(context),
-            
+
             // Third tab - Other components
             _buildOtherComponentsTab(context),
           ],
@@ -124,7 +127,7 @@ class _BackgroundComponentsDemoState extends ConsumerState<BackgroundComponentsD
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _buildSectionHeader(context, 'Material Surfaces'),
-          
+
           // 1. Material with default background
           _buildComponentCard(
             context,
@@ -141,7 +144,7 @@ class _BackgroundComponentsDemoState extends ConsumerState<BackgroundComponentsD
               ),
             ),
           ),
-          
+
           // 2. Card
           _buildComponentCard(
             context,
@@ -157,7 +160,7 @@ class _BackgroundComponentsDemoState extends ConsumerState<BackgroundComponentsD
               ),
             ),
           ),
-          
+
           // 3. ExpansionPanel
           _buildComponentCard(
             context,
@@ -190,7 +193,7 @@ class _BackgroundComponentsDemoState extends ConsumerState<BackgroundComponentsD
               ],
             ),
           ),
-          
+
           // 4. Container with explicit theme color
           _buildComponentCard(
             context,
@@ -207,7 +210,7 @@ class _BackgroundComponentsDemoState extends ConsumerState<BackgroundComponentsD
               ),
             ),
           ),
-          
+
           // 5. AppBar with theme color
           _buildComponentCard(
             context,
@@ -223,15 +226,15 @@ class _BackgroundComponentsDemoState extends ConsumerState<BackgroundComponentsD
               ),
             ),
           ),
-          
+
           const SizedBox(height: 16),
           const Center(
             child: ThemeColorPickerWidget(
               availableColors: [
-                Colors.blue, 
-                Colors.red, 
-                Colors.green, 
-                Colors.purple, 
+                Colors.blue,
+                Colors.red,
+                Colors.green,
+                Colors.purple,
                 Colors.orange,
                 Colors.teal,
                 Colors.brown,
@@ -250,7 +253,7 @@ class _BackgroundComponentsDemoState extends ConsumerState<BackgroundComponentsD
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _buildSectionHeader(context, 'Dialog Components'),
-          
+
           // 1. AlertDialog
           _buildComponentCard(
             context,
@@ -277,7 +280,7 @@ class _BackgroundComponentsDemoState extends ConsumerState<BackgroundComponentsD
               child: const Text('Show Alert Dialog'),
             ),
           ),
-          
+
           // 2. SimpleDialog
           _buildComponentCard(
             context,
@@ -308,7 +311,7 @@ class _BackgroundComponentsDemoState extends ConsumerState<BackgroundComponentsD
               child: const Text('Show Simple Dialog'),
             ),
           ),
-          
+
           // 3. BottomSheet
           _buildComponentCard(
             context,
@@ -349,7 +352,7 @@ class _BackgroundComponentsDemoState extends ConsumerState<BackgroundComponentsD
               child: const Text('Show Bottom Sheet'),
             ),
           ),
-          
+
           // 4. DatePicker
           _buildComponentCard(
             context,
@@ -367,7 +370,7 @@ class _BackgroundComponentsDemoState extends ConsumerState<BackgroundComponentsD
               child: const Text('Show Date Picker'),
             ),
           ),
-          
+
           // 5. TimePicker
           _buildComponentCard(
             context,
@@ -395,10 +398,10 @@ class _BackgroundComponentsDemoState extends ConsumerState<BackgroundComponentsD
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _buildSectionHeader(context, 'Other Components'),
-          
+
           // Toggle Components Section
           _buildSectionHeader(context, 'Toggle Components'),
-          
+
           // 1. Radio Buttons
           _buildComponentCard(
             context,
@@ -406,20 +409,20 @@ class _BackgroundComponentsDemoState extends ConsumerState<BackgroundComponentsD
             'Radio buttons use colorScheme.secondary for selected state',
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [1, 2, 3].map((value) => 
-                Radio<int>(
-                  value: value,
-                  groupValue: _selectedIndex,
-                  onChanged: (newValue) {
-                    setState(() {
-                      if (newValue != null) _selectedIndex = newValue;
-                    });
-                  },
-                )
-              ).toList(),
+              children: [1, 2, 3]
+                  .map((value) => Radio<int>(
+                        value: value,
+                        groupValue: _selectedIndex,
+                        onChanged: (newValue) {
+                          setState(() {
+                            if (newValue != null) _selectedIndex = newValue;
+                          });
+                        },
+                      ))
+                  .toList(),
             ),
           ),
-          
+
           // 2. Checkbox
           _buildComponentCard(
             context,
@@ -434,7 +437,7 @@ class _BackgroundComponentsDemoState extends ConsumerState<BackgroundComponentsD
               },
             ),
           ),
-          
+
           // 3. Switch
           _buildComponentCard(
             context,
@@ -449,14 +452,18 @@ class _BackgroundComponentsDemoState extends ConsumerState<BackgroundComponentsD
               },
             ),
           ),
-          
+
           // 4. ToggleButtons
           _buildComponentCard(
             context,
             'ToggleButtons',
             'ToggleButtons use colorScheme for selected state',
             ToggleButtons(
-              isSelected: [_selectedIndex == 0, _selectedIndex == 1, _selectedIndex == 2],
+              isSelected: [
+                _selectedIndex == 0,
+                _selectedIndex == 1,
+                _selectedIndex == 2
+              ],
               onPressed: (index) {
                 setState(() {
                   _selectedIndex = index;
@@ -469,10 +476,10 @@ class _BackgroundComponentsDemoState extends ConsumerState<BackgroundComponentsD
               ],
             ),
           ),
-          
+
           // Original components...
           _buildSectionHeader(context, 'Other UI Components'),
-          
+
           // 1. SnackBar (button to show)
           _buildComponentCard(
             context,
@@ -495,7 +502,7 @@ class _BackgroundComponentsDemoState extends ConsumerState<BackgroundComponentsD
               child: const Text('Show SnackBar'),
             ),
           ),
-          
+
           // 5. Current Theme Info
           _buildComponentCard(
             context,
@@ -533,15 +540,15 @@ class _BackgroundComponentsDemoState extends ConsumerState<BackgroundComponentsD
               ),
             ),
           ),
-          
+
           const SizedBox(height: 16),
           const Center(
             child: ThemeColorPickerWidget(
               availableColors: [
-                Colors.blue, 
-                Colors.red, 
-                Colors.green, 
-                Colors.purple, 
+                Colors.blue,
+                Colors.red,
+                Colors.green,
+                Colors.purple,
                 Colors.orange,
                 Colors.teal,
                 Colors.brown,
@@ -592,7 +599,3 @@ class _BackgroundComponentsDemoState extends ConsumerState<BackgroundComponentsD
     );
   }
 }
-
-
-
-

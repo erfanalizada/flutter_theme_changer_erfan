@@ -22,7 +22,7 @@ class ThemeChanger extends ConsumerWidget {
     // Initialize the theme provider with the default color
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(themeProvider.notifier).setDefaultColor(
-            defaultColor, 
+            defaultColor,
             scaffoldColor: scaffoldColor,
           );
     });

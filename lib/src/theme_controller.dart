@@ -37,7 +37,7 @@ class ThemeNotifier extends StateNotifier<ThemeData> {
   void setDefaultColor(Color color, {Color? scaffoldColor}) {
     _defaultColor = color;
     _scaffoldColor = scaffoldColor;
-    
+
     // Only update the theme if user hasn't selected a color and we haven't loaded a saved theme
     if (!_hasUserSelectedColor && state.colorScheme.primary == Colors.blue) {
       state = _generateThemeData(color, scaffoldColor: scaffoldColor);
@@ -47,7 +47,7 @@ class ThemeNotifier extends StateNotifier<ThemeData> {
   Future<void> updateThemeOffMainThread(Color primaryColor) async {
     // Mark that user has selected a color
     _hasUserSelectedColor = true;
-    
+
     developer.log('Starting theme update', name: 'performance');
     final startTime = DateTime.now();
 
@@ -61,9 +61,8 @@ class ThemeNotifier extends StateNotifier<ThemeData> {
     developer.log('Starting theme generation in isolate', name: 'performance');
     final isolateStart = DateTime.now();
     final newTheme = await compute(
-      (color) => _generateThemeData(color, scaffoldColor: _scaffoldColor), 
-      primaryColor
-    );
+        (color) => _generateThemeData(color, scaffoldColor: _scaffoldColor),
+        primaryColor);
     developer.log(
         'Theme generation completed in ${DateTime.now().difference(isolateStart).inMilliseconds}ms',
         name: 'performance');
@@ -97,7 +96,8 @@ class ThemeNotifier extends StateNotifier<ThemeData> {
       try {
         final colorValue = int.parse(colorString.substring(1), radix: 16);
         final color = Color(colorValue);
-        _hasUserSelectedColor = true; // Mark that we have a saved user selection
+        _hasUserSelectedColor =
+            true; // Mark that we have a saved user selection
         updateThemeOffMainThread(color);
       } catch (e) {
         // If parsing fails, keep the default theme
@@ -121,7 +121,7 @@ class ThemeNotifier extends StateNotifier<ThemeData> {
   void updateTheme(Color primaryColor) {
     // Mark that user has selected a color
     _hasUserSelectedColor = true;
-    
+
     // For better performance, use the off-main-thread version
     updateThemeOffMainThread(primaryColor);
 
