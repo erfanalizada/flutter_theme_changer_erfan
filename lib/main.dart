@@ -3,6 +3,7 @@ import 'dart:developer' as developer;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_theme_changer_erfan/dynamic_theme_picker.dart';
+import 'background_components_demo.dart'; // Import the new file
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -180,6 +181,21 @@ class _ThemeChangerDemoState extends State<ThemeChangerDemo> {
                 ),
               ),
             ),
+            
+            const SizedBox(height: 24),
+            
+            // Button to navigate to the background components demo
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const BackgroundComponentsDemo(),
+                  ),
+                );
+              },
+              child: const Text('View Background Components Demo'),
+            ),
           ],
         ),
       ),
@@ -209,4 +225,8 @@ class _ThemeChangerDemoState extends State<ThemeChangerDemo> {
     );
   }
 }
+
+
+
+
 

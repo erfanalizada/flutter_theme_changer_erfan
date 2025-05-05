@@ -4,8 +4,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/foundation.dart';
 import 'dart:developer' as developer;
 
-ThemeData _generateThemeData(Color primaryColor) {
-  // Move the theme generation logic here
+ThemeData _generateThemeData(Color primaryColor, {Color? scaffoldColor}) {
+  // Remove backgroundColor parameter
   final colorScheme = ColorScheme.fromSeed(
     seedColor: primaryColor,
     primary: primaryColor,
@@ -14,6 +14,7 @@ ThemeData _generateThemeData(Color primaryColor) {
   return ThemeData(
     colorScheme: colorScheme,
     useMaterial3: true,
+    scaffoldBackgroundColor: scaffoldColor,
     appBarTheme: AppBarTheme(
       backgroundColor: primaryColor,
       foregroundColor:
@@ -24,6 +25,7 @@ ThemeData _generateThemeData(Color primaryColor) {
 
 class ThemeNotifier extends StateNotifier<ThemeData> {
   Color _defaultColor = Colors.blue; // Default fallback, will be overridden
+  Color? _scaffoldColor;
   bool _hasUserSelectedColor = false; // Track if user has selected a color
 
   ThemeNotifier() : super(_generateThemeData(Colors.blue)) {
@@ -32,11 +34,13 @@ class ThemeNotifier extends StateNotifier<ThemeData> {
   }
 
   // Method to set the default color from ThemeChanger
-  void setDefaultColor(Color color) {
+  void setDefaultColor(Color color, {Color? scaffoldColor}) {
     _defaultColor = color;
+    _scaffoldColor = scaffoldColor;
+    
     // Only update the theme if user hasn't selected a color and we haven't loaded a saved theme
     if (!_hasUserSelectedColor && state.colorScheme.primary == Colors.blue) {
-      state = _generateThemeData(color);
+      state = _generateThemeData(color, scaffoldColor: scaffoldColor);
     }
   }
 
@@ -56,7 +60,10 @@ class ThemeNotifier extends StateNotifier<ThemeData> {
     // Generate theme in a separate isolate
     developer.log('Starting theme generation in isolate', name: 'performance');
     final isolateStart = DateTime.now();
-    final newTheme = await compute(_generateThemeData, primaryColor);
+    final newTheme = await compute(
+      (color) => _generateThemeData(color, scaffoldColor: _scaffoldColor), 
+      primaryColor
+    );
     developer.log(
         'Theme generation completed in ${DateTime.now().difference(isolateStart).inMilliseconds}ms',
         name: 'performance');
@@ -127,6 +134,7 @@ class ThemeNotifier extends StateNotifier<ThemeData> {
     state = ThemeData(
       colorScheme: colorScheme,
       useMaterial3: true,
+      scaffoldBackgroundColor: _scaffoldColor,
       appBarTheme: AppBarTheme(
         backgroundColor: primaryColor,
         foregroundColor:

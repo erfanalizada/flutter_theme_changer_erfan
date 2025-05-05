@@ -7,20 +7,24 @@ class ThemeChanger extends ConsumerWidget {
   final Widget child;
   final String? title;
   final Color defaultColor;
+  final Color? scaffoldColor;
 
   const ThemeChanger({
     super.key,
     required this.child,
     this.title,
     required this.defaultColor,
+    this.scaffoldColor,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // Initialize the theme provider with the default color
-    // This ensures we're using the same provider instance
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(themeProvider.notifier).setDefaultColor(defaultColor);
+      ref.read(themeProvider.notifier).setDefaultColor(
+            defaultColor, 
+            scaffoldColor: scaffoldColor,
+          );
     });
 
     return MaterialApp(
@@ -36,5 +40,6 @@ class ThemeChanger extends ConsumerWidget {
     properties.add(DiagnosticsProperty<Widget>('child', child));
     properties.add(DiagnosticsProperty<String>('title', title));
     properties.add(ColorProperty('defaultColor', defaultColor));
+    properties.add(ColorProperty('scaffoldColor', scaffoldColor));
   }
 }
