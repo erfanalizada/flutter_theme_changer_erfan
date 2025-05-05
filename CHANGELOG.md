@@ -1,3 +1,12 @@
+## 0.0.2+9
+
+* Added a new CustomColorPickerDialog utility for showing the theme picker from any widget
+* Fixed missing required defaultColor parameter in widget tests
+* Fixed Dart formatting issues across multiple files
+* Updated package dependencies
+* Improved test coverage and stability
+* Enhanced documentation
+
 ## 0.0.1+8
 
 * Updated package dependencies
@@ -50,6 +59,7 @@
 * Basic theme switching functionality
 * Support for colourful and darkthemes
 * Customizable widget appearance
+
 
 
 
