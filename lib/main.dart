@@ -6,15 +6,17 @@ import 'package:flutter_theme_changer_erfan/dynamic_theme_picker.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
+
   // Log Flutter engine info
-  developer.log('Flutter engine: ${PlatformDispatcher.instance.views.first.platformDispatcher.semanticsEnabled}', name: 'performance');
+  developer.log(
+      'Flutter engine: ${PlatformDispatcher.instance.views.first.platformDispatcher.semanticsEnabled}',
+      name: 'performance');
   developer.log('Using Impeller: ${_isUsingImpeller()}', name: 'performance');
-  
+
   // Add performance observer
   final observer = _PerformanceObserver();
   WidgetsBinding.instance.addObserver(observer);
-  
+
   runApp(const ProviderScope(child: MyApp()));
 }
 
@@ -31,17 +33,17 @@ bool _isUsingImpeller() {
 // Performance observer class
 class _PerformanceObserver with WidgetsBindingObserver {
   Stopwatch? _frameStopwatch;
-  
-  
+
   void didBeginFrame() {
     _frameStopwatch = Stopwatch()..start();
     developer.log('Frame started', name: 'performance');
   }
-  
+
   void didDrawFrame() {
     if (_frameStopwatch != null) {
       final elapsed = _frameStopwatch!.elapsedMilliseconds;
-      if (elapsed > 16) { // Frame took longer than 16ms (60fps)
+      if (elapsed > 16) {
+        // Frame took longer than 16ms (60fps)
         developer.log('Slow frame: ${elapsed}ms', name: 'performance');
       }
       _frameStopwatch = null;
@@ -52,11 +54,13 @@ class _PerformanceObserver with WidgetsBindingObserver {
 // Wrap your app with a performance monitor
 class PerformanceMonitorWidget extends StatefulWidget {
   final Widget child;
-  
-  const PerformanceMonitorWidget({Key? key, required this.child}) : super(key: key);
-  
+
+  const PerformanceMonitorWidget({Key? key, required this.child})
+      : super(key: key);
+
   @override
-  State<PerformanceMonitorWidget> createState() => _PerformanceMonitorWidgetState();
+  State<PerformanceMonitorWidget> createState() =>
+      _PerformanceMonitorWidgetState();
 }
 
 class _PerformanceMonitorWidgetState extends State<PerformanceMonitorWidget> {
@@ -64,12 +68,12 @@ class _PerformanceMonitorWidgetState extends State<PerformanceMonitorWidget> {
   Widget build(BuildContext context) {
     return widget.child;
   }
-  
+
   @override
   void initState() {
     super.initState();
     developer.log('App UI initialized', name: 'performance');
-    
+
     // Log first frame timing
     WidgetsBinding.instance.addPostFrameCallback((_) {
       developer.log('First frame rendered', name: 'performance');
@@ -130,26 +134,26 @@ class _ThemeChangerDemoState extends State<ThemeChangerDemo> {
               // Remove gradientColors parameter
             ),
             const SizedBox(height: 40),
-            
+
             // Various button types to show theme effects
             ElevatedButton(
               onPressed: () {},
               child: const Text('Elevated Button'),
             ),
             const SizedBox(height: 16),
-            
+
             OutlinedButton(
               onPressed: () {},
               child: const Text('Outlined Button'),
             ),
             const SizedBox(height: 16),
-            
+
             TextButton(
               onPressed: () {},
               child: const Text('Text Button'),
             ),
             const SizedBox(height: 16),
-            
+
             // Card with content
             Card(
               margin: const EdgeInsets.symmetric(horizontal: 20),
@@ -204,14 +208,3 @@ class _ThemeChangerDemoState extends State<ThemeChangerDemo> {
     );
   }
 }
-
-
-
-
-
-
-
-
-
-
-

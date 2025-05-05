@@ -19,10 +19,10 @@ class ThemeDialogButton extends StatelessWidget {
 
   /// The list of colors to display in the color picker dialog
   final List<Color> availableColors;
-  
+
   /// The list of gradient color sets, each containing 2-4 colors
   final List<List<Color>> gradientColors;
-  
+
   /// The icon to display in the button
   final Widget icon;
 
@@ -47,5 +47,3 @@ class ThemeDialogButton extends StatelessWidget {
     );
   }
 }
-
-

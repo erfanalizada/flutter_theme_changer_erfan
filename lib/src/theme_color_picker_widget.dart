@@ -22,6 +22,7 @@ class ThemeColorPickerWidget extends ConsumerStatefulWidget {
   });
 
   final List<Color> availableColors;
+
   /// List of gradient color sets, each containing 2-4 colors
   final List<List<Color>> gradientColors;
 

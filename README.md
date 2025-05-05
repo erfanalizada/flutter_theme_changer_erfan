@@ -40,7 +40,7 @@ Add this to your package's `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  flutter_theme_changer_erfan: ^0.0.1+7
+  flutter_theme_changer_erfan: ^0.0.1+8
 ```
 Then run `flutter pub get` to install the package.
 
@@ -48,6 +48,7 @@ Then run `flutter pub get` to install the package.
 
 ### Option 1: Using ThemeColorPickerWidget (Expandable Picker)
 Place the color picker directly in your layout:
+Pass no colours to get the default colours in this widget.
 
 ```dart
 class HomeScreen extends StatelessWidget {
@@ -61,9 +62,25 @@ class HomeScreen extends StatelessWidget {
   }
 }
 ```
+Or pass your colours in the consutructor like below:
+
+```dart
+class HomeScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: ThemeColorPickerWidget(availableColors: [Colors.red, Colors.blue]), // Expands to show colors when tapped
+      ),
+    );
+  }
+}
+```
 
 ### Option 2: Using ThemeDialogButton (Dialog Picker)
 Add a button to your AppBar that shows colors in a dialog:
+Pass no colours to get the default colours in this widget.
+
 
 ```dart
 class HomeScreen extends StatelessWidget {
@@ -74,6 +91,23 @@ class HomeScreen extends StatelessWidget {
         title: Text('My App'),
         actions: [
           ThemeDialogButton(), // Shows color picker in a dialog
+        ],
+      ),
+    );
+  }
+}
+```
+Or pass your colours in the consutructor like below:
+
+```dart
+class HomeScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('My App'),
+        actions: [
+          ThemeDialogButton(availableColors: [Colors.red, Colors.blue]), // Shows color picker in a dialog
         ],
       ),
     );
@@ -163,4 +197,5 @@ Erfan Alizada. Developed with ❤️ using Flutter and Riverpod.
 ## 📄 License MIT
 This project is licensed under the MIT License.
 See the LICENSE file for more details.
+
 

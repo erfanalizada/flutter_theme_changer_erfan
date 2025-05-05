@@ -1,3 +1,10 @@
+## 0.0.1+8
+
+* Updated package dependencies
+* Improved widget performance
+* Fixed minor UI issues in theme picker widgets
+* Enhanced documentation
+
 ## 0.0.1+7
 
 * Fixed Yaml links and description length
@@ -43,5 +50,6 @@
 * Basic theme switching functionality
 * Support for colourful and darkthemes
 * Customizable widget appearance
+
 
 

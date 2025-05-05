@@ -11,13 +11,14 @@ ThemeData _generateThemeData(Color primaryColor) {
     seedColor: primaryColor,
     primary: primaryColor,
   );
-  
+
   return ThemeData(
     colorScheme: colorScheme,
     useMaterial3: true,
     appBarTheme: AppBarTheme(
       backgroundColor: primaryColor,
-      foregroundColor: primaryColor.computeLuminance() > 0.5 ? Colors.black : Colors.white,
+      foregroundColor:
+          primaryColor.computeLuminance() > 0.5 ? Colors.black : Colors.white,
     ),
   );
 }
@@ -45,33 +46,36 @@ class ThemeNotifier extends StateNotifier<ThemeData> {
   Future<void> updateThemeOffMainThread(Color primaryColor) async {
     developer.log('Starting theme update', name: 'performance');
     final startTime = DateTime.now();
-    
+
     // Save preference
     await _saveThemePreference(primaryColor);
-    developer.log('Saved theme preference in ${DateTime.now().difference(startTime).inMilliseconds}ms', 
-      name: 'performance');
-    
+    developer.log(
+        'Saved theme preference in ${DateTime.now().difference(startTime).inMilliseconds}ms',
+        name: 'performance');
+
     // Generate theme in a separate isolate
     developer.log('Starting theme generation in isolate', name: 'performance');
     final isolateStart = DateTime.now();
     final newTheme = await compute(_generateThemeData, primaryColor);
-    developer.log('Theme generation completed in ${DateTime.now().difference(isolateStart).inMilliseconds}ms', 
-      name: 'performance');
-    
+    developer.log(
+        'Theme generation completed in ${DateTime.now().difference(isolateStart).inMilliseconds}ms',
+        name: 'performance');
+
     // Update state with the new theme
     state = newTheme;
-    developer.log('Total theme update completed in ${DateTime.now().difference(startTime).inMilliseconds}ms', 
-      name: 'performance');
+    developer.log(
+        'Total theme update completed in ${DateTime.now().difference(startTime).inMilliseconds}ms',
+        name: 'performance');
   }
 
   // Add a cache for SharedPreferences
   SharedPreferences? _prefsCache;
-  
+
   Future<SharedPreferences> _getPrefs() async {
     _prefsCache ??= await SharedPreferences.getInstance();
     return _prefsCache!;
   }
-  
+
   Future<void> _saveThemePreference(Color color) async {
     final prefs = await _getPrefs();
     final colorString = '#${color.value.toRadixString(16).padLeft(8, '0')}';
@@ -103,26 +107,29 @@ class ThemeNotifier extends StateNotifier<ThemeData> {
   void updateTheme(Color primaryColor) {
     // For better performance, use the off-main-thread version
     updateThemeOffMainThread(primaryColor);
-    
+
     // But also update the UI immediately for responsiveness
     final colorScheme = ColorScheme.fromSeed(
       seedColor: primaryColor,
       primary: primaryColor,
     );
-    
+
     state = ThemeData(
       colorScheme: colorScheme,
       useMaterial3: true,
       appBarTheme: AppBarTheme(
         backgroundColor: primaryColor,
-        foregroundColor: primaryColor.computeLuminance() > 0.5 ? Colors.black : Colors.white,
+        foregroundColor:
+            primaryColor.computeLuminance() > 0.5 ? Colors.black : Colors.white,
       ),
     );
   }
 
   // Helper method for contrast color
   Color _getContrastColor(Color backgroundColor) {
-    return backgroundColor.computeLuminance() > 0.5 ? Colors.black : Colors.white;
+    return backgroundColor.computeLuminance() > 0.5
+        ? Colors.black
+        : Colors.white;
   }
 }
 
