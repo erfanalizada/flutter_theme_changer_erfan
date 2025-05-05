@@ -1,6 +1,9 @@
+import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'theme_controller.dart';
+
+// Remove midpointGradient and interpolate functions
 
 class ThemeColorPickerWidget extends ConsumerStatefulWidget {
   const ThemeColorPickerWidget({
@@ -12,6 +15,8 @@ class ThemeColorPickerWidget extends ConsumerStatefulWidget {
       Colors.orange,
       Colors.purple,
       Colors.pink,
+      Colors.teal,
+      Colors.amber,
     ],
     this.gradientColors = const [],
   });
@@ -61,8 +66,7 @@ class _ThemeColorPickerWidgetState
                     children: [
                       ...widget.availableColors
                           .map((color) => _buildColorButton(color)),
-                      ...widget.gradientColors
-                          .map((colors) => _buildGradientButton(colors)),
+                      // Remove gradient colors mapping
                     ],
                   ),
                 ),
@@ -100,35 +104,15 @@ class _ThemeColorPickerWidgetState
     );
   }
 
-  Widget _buildGradientButton(List<Color> colors) {
-    return InkWell(
-      onTap: () {
-        // For gradients, we'll use the first color as the primary theme color
-        ref.read(themeProvider.notifier).updateTheme(colors.first);
-        _toggleExpanded();
-      },
-      borderRadius: BorderRadius.circular(20),
-      child: Container(
-        width: 40,
-        height: 40,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: colors,
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-          shape: BoxShape.circle,
-          border: Border.all(color: Colors.white, width: 2),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.2),
-              blurRadius: 4,
-              offset: const Offset(0, 2),
-            ),
-          ],
-        ),
-      ),
-    );
+  // Keep _buildColorButton but remove _buildGradientButton
+
+  // Helper method to generate stops for distinct color bands
+  List<double> _generateDistinctStops(int colorCount) {
+    List<double> stops = [];
+    for (int i = 0; i < colorCount; i++) {
+      stops.add(i / (colorCount - 1));
+    }
+    return stops;
   }
 
   Widget _buildMainButton(ThemeData currentTheme) {

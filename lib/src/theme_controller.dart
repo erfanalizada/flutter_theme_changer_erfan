@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/foundation.dart';
 import 'dart:developer' as developer;
+import 'dart:ui' as ui;
 
 ThemeData _generateThemeData(Color primaryColor) {
   // Move the theme generation logic here

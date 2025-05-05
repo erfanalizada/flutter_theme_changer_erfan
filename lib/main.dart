@@ -1,7 +1,6 @@
 import 'dart:ui';
 import 'dart:developer' as developer;
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_theme_changer_erfan/dynamic_theme_picker.dart';
 
@@ -33,13 +32,12 @@ bool _isUsingImpeller() {
 class _PerformanceObserver with WidgetsBindingObserver {
   Stopwatch? _frameStopwatch;
   
-  @override
+  
   void didBeginFrame() {
     _frameStopwatch = Stopwatch()..start();
     developer.log('Frame started', name: 'performance');
   }
   
-  @override
   void didDrawFrame() {
     if (_frameStopwatch != null) {
       final elapsed = _frameStopwatch!.elapsedMilliseconds;
@@ -118,11 +116,7 @@ class _ThemeChangerDemoState extends State<ThemeChangerDemo> {
         actions: const [
           ThemeDialogButton(
             availableColors: [Colors.red, Colors.blue, Colors.green],
-            gradientColors: [
-              [Colors.purple, Colors.deepPurple],
-              [Colors.orange, Colors.deepOrange, Colors.red],
-              [Colors.lightBlue, Colors.blue, Colors.indigo, Colors.purple],
-            ],
+            // Remove gradientColors parameter
           ),
         ],
       ),
@@ -132,10 +126,8 @@ class _ThemeChangerDemoState extends State<ThemeChangerDemo> {
           children: [
             // Theme color picker widget
             const ThemeColorPickerWidget(
-              gradientColors: [
-                [Colors.teal, Colors.green],
-                [Colors.pink, Colors.purple],
-              ],
+              availableColors: [Colors.red, Colors.blue, Colors.green],
+              // Remove gradientColors parameter
             ),
             const SizedBox(height: 40),
             
@@ -212,6 +204,8 @@ class _ThemeChangerDemoState extends State<ThemeChangerDemo> {
     );
   }
 }
+
+
 
 
 
