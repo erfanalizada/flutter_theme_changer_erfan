@@ -171,13 +171,8 @@ class CustomThemeColorPalette {
     final lightPrimary = lightModeColors['primary'] ?? Colors.blue;
     final darkPrimary = darkModeColors['primary'] ?? Colors.blue;
 
-    // Get background colors if available
-    final lightBackground = lightModeColors['background'];
-    final darkBackground = darkModeColors['background'];
-
     // Update the app theme with the appropriate color based on mode
     final primaryColor = isDarkMode ? darkPrimary : lightPrimary;
-    final scaffoldColor = isDarkMode ? darkBackground : lightBackground;
 
     // Update the app theme
     ref.read(themeProvider.notifier).updateTheme(
@@ -283,12 +278,12 @@ class DarkLightModeCustomToggle extends ConsumerWidget {
     final isDarkMode = customColors.isDarkMode;
 
     // Icons for light/dark mode
-    final IconData darkModeIcon = Icons.dark_mode;
-    final IconData lightModeIcon = Icons.light_mode;
+    const IconData darkModeIcon = Icons.dark_mode;
+    const IconData lightModeIcon = Icons.light_mode;
 
     // Default colors if not provided
-    final Color defaultLightModeColor = Colors.amber;
-    final Color defaultDarkModeColor = Colors.indigo;
+    const Color defaultLightModeColor = Colors.amber;
+    const Color defaultDarkModeColor = Colors.indigo;
 
     // Use provided colors or fallback to defaults
     final Color currentLightIconColor =
@@ -314,7 +309,10 @@ class DarkLightModeCustomToggle extends ConsumerWidget {
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(24),
-          color: Theme.of(context).colorScheme.surfaceVariant.withOpacity(0.3),
+          color: Theme.of(context)
+              .colorScheme
+              .surfaceContainerHighest
+              .withValues(alpha: 0.3),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,

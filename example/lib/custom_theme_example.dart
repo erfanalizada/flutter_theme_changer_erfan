@@ -32,7 +32,8 @@ class CustomThemeExample extends ConsumerWidget {
           'Custom Theme Example',
           style: TextStyle(color: colorPalette.getColor('text')),
         ),
-        backgroundColor: colorPalette.getColor('background').withOpacity(0.8),
+        backgroundColor:
+            colorPalette.getColor('background').withValues(alpha: 0.8),
         actions: [
           // Add the custom theme toggle
           Padding(

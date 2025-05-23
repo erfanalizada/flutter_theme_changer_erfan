@@ -49,9 +49,9 @@ class _ThemeColorPickerWidgetState
         mainAxisSize: MainAxisSize.min,
         children: [
           if (widget.showDarkModeToggle)
-            Padding(
-              padding: const EdgeInsets.only(bottom: 16),
-              child: const ThemeModeToggle(compact: true),
+            const Padding(
+              padding: EdgeInsets.only(bottom: 16),
+              child: ThemeModeToggle(compact: true),
             ),
           if (_isExpanded)
             Padding(
@@ -119,7 +119,7 @@ class _ThemeColorPickerWidgetState
           borderRadius: BorderRadius.circular(30),
           boxShadow: [
             BoxShadow(
-              color: theme.colorScheme.primary.withOpacity(0.4),
+              color: theme.colorScheme.primary.withValues(alpha: 0.4),
               blurRadius: 8,
               offset: const Offset(0, 4),
             ),

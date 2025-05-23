@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_theme_changer_erfan/dynamic_theme_picker.dart';
@@ -111,7 +112,9 @@ class CustomThemeDemo extends ConsumerWidget {
         .watch(customThemeColorsProvider.select((state) => state.isDarkMode));
 
     // Only print once when the mode changes
-    print('Current mode: ${isDarkMode ? "Dark" : "Light"}');
+    if (kDebugMode) {
+      print('Current mode: ${isDarkMode ? "Dark" : "Light"}');
+    }
 
     return Scaffold(
       backgroundColor: colorPalette.getColor('background'),
@@ -227,10 +230,10 @@ class CustomThemeDemo extends ConsumerWidget {
               ElevatedButton(
                 onPressed: () {},
                 style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(
+                  backgroundColor: WidgetStateProperty.all(
                       colorPalette.getColor('secondary')),
-                  foregroundColor: MaterialStateProperty.all(Colors.white),
-                  padding: MaterialStateProperty.all(
+                  foregroundColor: WidgetStateProperty.all(Colors.white),
+                  padding: WidgetStateProperty.all(
                     const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                   ),
                 ),
@@ -243,10 +246,10 @@ class CustomThemeDemo extends ConsumerWidget {
               ElevatedButton(
                 onPressed: () {},
                 style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(
-                      colorPalette.getColor('accent')),
-                  foregroundColor: MaterialStateProperty.all(Colors.white),
-                  padding: MaterialStateProperty.all(
+                  backgroundColor:
+                      WidgetStateProperty.all(colorPalette.getColor('accent')),
+                  foregroundColor: WidgetStateProperty.all(Colors.white),
+                  padding: WidgetStateProperty.all(
                     const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                   ),
                 ),
@@ -294,7 +297,8 @@ class CustomThemeDemo extends ConsumerWidget {
               Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: colorPalette.getColor('primary').withOpacity(0.1),
+                  color:
+                      colorPalette.getColor('primary').withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(color: colorPalette.getColor('primary')),
                 ),

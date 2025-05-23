@@ -36,12 +36,12 @@ class ThemeModeToggle extends ConsumerWidget {
     final isDarkMode = ref.watch(themeProvider.notifier).isDarkMode;
 
     // Hardcoded icons for light/dark mode
-    final IconData darkModeIcon = Icons.dark_mode; // Moon icon for dark mode
-    final IconData lightModeIcon = Icons.light_mode; // Sun icon for light mode
+    const IconData darkModeIcon = Icons.dark_mode; // Moon icon for dark mode
+    const IconData lightModeIcon = Icons.light_mode; // Sun icon for light mode
 
     // Default colors if not provided
-    final Color defaultLightModeColor = Colors.amber; // Yellow/amber for sun
-    final Color defaultDarkModeColor = Colors.indigo; // Indigo for moon
+    const Color defaultLightModeColor = Colors.amber; // Yellow/amber for sun
+    const Color defaultDarkModeColor = Colors.indigo; // Indigo for moon
 
     // Use provided colors or fallback to defaults
     final Color currentLightIconColor =
@@ -76,7 +76,10 @@ class ThemeModeToggle extends ConsumerWidget {
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(24),
-          color: Theme.of(context).colorScheme.surfaceVariant.withOpacity(0.3),
+          color: Theme.of(context)
+              .colorScheme
+              .surfaceContainerHighest
+              .withValues(alpha: 0.3),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
