@@ -44,9 +44,6 @@ If you find this package helpful, consider supporting my work:
 
 
 
-
-
-
 ## Getting started
 
 Add this to your package's `pubspec.yaml` file:
@@ -418,8 +415,8 @@ Erfan Alizada. Developed with ❤️ using Flutter and Riverpod.
 - Contribute to the package on [GitHub](https://github.com/erfanalizada/flutter_theme_changer_erfan)
 
 
-## 📄 License MIT
-This project is licensed under the MIT License.
+## 📄 License
+This project is licensed under the GNU General Public License v3.0.
 See the LICENSE file for more details.
 
 ## 🔍 Performance Considerations
@@ -549,5 +546,6 @@ Here's a guide on which widgets can be combined and which should be used separat
 
 4. **Fully Custom Theme System:**
    - `DarkLightModeCustomToggle` alone, with custom color palettes for both modes
+
 
 
