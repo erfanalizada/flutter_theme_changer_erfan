@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'theme_controller.dart';
-
-// Remove midpointGradient and interpolate functions
+import 'theme_mode_toggle.dart';
 
 class ThemeColorPickerWidget extends ConsumerStatefulWidget {
   const ThemeColorPickerWidget({
@@ -18,12 +17,12 @@ class ThemeColorPickerWidget extends ConsumerStatefulWidget {
       Colors.amber,
     ],
     this.gradientColors = const [],
+    this.showDarkModeToggle = true,
   });
 
   final List<Color> availableColors;
-
-  /// List of gradient color sets, each containing 2-4 colors
   final List<List<Color>> gradientColors;
+  final bool showDarkModeToggle;
 
   @override
   ConsumerState<ThemeColorPickerWidget> createState() =>
@@ -49,6 +48,11 @@ class _ThemeColorPickerWidgetState
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
+          if (widget.showDarkModeToggle)
+            Padding(
+              padding: const EdgeInsets.only(bottom: 16),
+              child: const ThemeModeToggle(compact: true),
+            ),
           if (_isExpanded)
             Padding(
               padding: const EdgeInsets.only(bottom: 16),
@@ -66,7 +70,6 @@ class _ThemeColorPickerWidgetState
                     children: [
                       ...widget.availableColors
                           .map((color) => _buildColorButton(color)),
-                      // Remove gradient colors mapping
                     ],
                   ),
                 ),
@@ -104,36 +107,40 @@ class _ThemeColorPickerWidgetState
     );
   }
 
-  // Keep _buildColorButton but remove _buildGradientButton
-
-  // Helper method to generate stops for distinct color bands
-
-  Widget _buildMainButton(ThemeData currentTheme) {
+  Widget _buildMainButton(ThemeData theme) {
     return InkWell(
       onTap: _toggleExpanded,
       borderRadius: BorderRadius.circular(30),
-      child: Container(
-        width: 60,
-        height: 60,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
-          color: currentTheme.colorScheme.primary,
-          shape: BoxShape.circle,
+          color: theme.colorScheme.primary,
+          borderRadius: BorderRadius.circular(30),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.3),
+              color: theme.colorScheme.primary.withOpacity(0.4),
               blurRadius: 8,
-              offset: const Offset(0, 3),
+              offset: const Offset(0, 4),
             ),
           ],
         ),
-        child: AnimatedRotation(
-          duration: const Duration(milliseconds: 200),
-          turns: _isExpanded ? 0.125 : 0,
-          child: Icon(
-            _isExpanded ? Icons.close : Icons.color_lens,
-            color: currentTheme.colorScheme.onPrimary,
-            size: 30,
-          ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              _isExpanded ? Icons.close : Icons.color_lens,
+              color: theme.colorScheme.onPrimary,
+            ),
+            const SizedBox(width: 8),
+            Text(
+              _isExpanded ? 'Close' : 'Theme Color',
+              style: theme.textTheme.labelLarge?.copyWith(
+                color: theme.colorScheme.onPrimary,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
         ),
       ),
     );

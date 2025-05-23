@@ -1,7 +1,7 @@
 # Flutter Dynamic Theme Changer
 
 A Flutter package that allows you to easily change your app's theme color dynamically at runtime using Riverpod.  
-It provides both a **full theme changer wrapper** and **two beautiful theme picker widgets**!
+It provides both a **full theme changer wrapper** and **four beautiful theme widgets**!
 
 ## ☕ Support
 
@@ -12,11 +12,12 @@ If you find this package helpful, consider supporting my work:
 ## ✨  Features
 
 - 🎨 Dynamic primary color theme switching with Material 3 ColorScheme
-- 🧩 Three ready-to-use theme picker options:
+- 🧩 Five ready-to-use theme widgets:
   - `ThemeColorPickerWidget`: An expandable color picker that can be placed anywhere (Great for floating).
   - `ThemeDialogButton`: A convenient button that shows colors in a dialog. which is great for all common use cases.
-  - `CustomColorPickerDialog`: A static utility to show a theme picker from any custom widget or UI element. Could be triggert 
-                               from any custom button, icon, or widget.
+  - `CustomColorPickerDialog`: A static utility to show a theme picker from any custom widget or UI element.
+  - `ThemeModeToggle`: A simple toggle for switching between light and dark mode.
+  - `DarkLightModeCustomToggle`: An advanced toggle for custom light/dark mode color schemes.
 - 🌈 Allow users to pick from customizable color palettes
 - 🚀 Built with Flutter Riverpod 2.0 (StateNotifier based)
 - 🎯 Simple API and easy integration
@@ -52,7 +53,7 @@ Add this to your package's `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  flutter_theme_changer_erfan: ^0.0.2+9
+  flutter_theme_changer_erfan: ^0.0.3+0
 ```
 Then run `flutter pub get` to install the package.
 
@@ -219,6 +220,157 @@ void onUserPreferenceChanged() {
 
 This gives you complete flexibility to integrate theme changing functionality with your own UI components and interaction patterns.
 
+### Using ThemeModeToggle
+Add a simple light/dark mode toggle to your app:
+
+```dart
+void main() {
+  runApp(
+    const ProviderScope(
+      child: ThemeChanger(
+        title: 'My App',
+        defaultColor: Colors.purple,
+        child: HomeScreen(),
+      ),
+    ),
+  );
+}
+
+// In your UI:
+AppBar(
+  title: const Text('My App'),
+  actions: [
+    // Add the theme mode toggle to your AppBar
+    const ThemeModeToggle(
+      showIcon: true,
+      showText: true,
+      compact: false,
+    ),
+  ],
+)
+```
+
+### Using DarkLightModeCustomToggle
+For advanced theming with custom color palettes for light and dark modes:
+
+```dart
+void main() {
+  runApp(
+    const ProviderScope(
+      child: MyApp(),
+    ),
+  );
+}
+
+class MyApp extends ConsumerStatefulWidget {
+  const MyApp({super.key});
+
+  @override
+  ConsumerState<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends ConsumerState<MyApp> {
+  @override
+  void initState() {
+    super.initState();
+    _initializeTheme();
+  }
+  
+  void _initializeTheme() {
+    // Define custom colors for light and dark modes
+    final lightModeColors = {
+      'background': Colors.white,
+      'card': Colors.blue.shade50,
+      'primary': Colors.blue.shade600,
+      'text': Colors.black87,
+    };
+
+    final darkModeColors = {
+      'background': Colors.grey.shade900,
+      'card': Colors.grey.shade800,
+      'primary': Colors.blue.shade400,
+      'text': Colors.white,
+    };
+    
+    // Initialize custom theme colors
+    CustomThemeColorPalette.initialize(
+      ref,
+      lightModeColors: lightModeColors,
+      darkModeColors: darkModeColors,
+      isDarkMode: false, // Default to light mode
+      syncWithAppTheme: true,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ThemeChanger(
+      title: 'Custom Theme Demo',
+      defaultColor: Colors.blue.shade600,
+      child: HomeScreen(),
+    );
+  }
+}
+
+// In your UI:
+AppBar(
+  title: const Text('My App'),
+  actions: [
+    // Add the custom theme toggle to your AppBar
+    Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: DarkLightModeCustomToggle(
+        lightModeColors: {
+          'background': Colors.white,
+          'card': Colors.blue.shade50,
+          'primary': Colors.blue.shade600,
+          'text': Colors.black87,
+        },
+        darkModeColors: {
+          'background': Colors.grey.shade900,
+          'card': Colors.grey.shade800,
+          'primary': Colors.blue.shade400,
+          'text': Colors.white,
+        },
+        syncWithAppTheme: true,
+        defaultDarkMode: false,
+      ),
+    ),
+  ],
+)
+```
+
+#### How DarkLightModeCustomToggle Works
+
+The `DarkLightModeCustomToggle` provides a powerful way to implement custom color palettes for both light and dark modes:
+
+1. **Named Color Palettes**: Define your own color maps with semantic keys like 'background', 'text', 'card', etc.
+
+2. **Separate Light/Dark Palettes**: Create distinct color sets for light and dark modes that automatically switch when toggled.
+
+3. **App Theme Synchronization**: When `syncWithAppTheme` is set to `true`, the toggle will also update the app's main theme.
+
+4. **Accessing Colors**: You can access your custom colors anywhere in your app using:
+   ```dart
+   // Create a color palette reference
+   final colorPalette = CustomThemeColorPalette(ref);
+   
+   // Use it to get colors by name
+   Container(
+     color: colorPalette.getColor('background'),
+     child: Text(
+       'Hello World',
+       style: TextStyle(color: colorPalette.getColor('text')),
+     ),
+   )
+   ```
+
+5. **Default Mode**: Set `defaultDarkMode` to `true` to start your app in dark mode with the dark palette.
+
+6. **Custom Icon Colors**: Customize the toggle's appearance with `lightModeIconColor` and `darkModeIconColor`.
+
+This approach gives you complete control over your app's color scheme while maintaining the simplicity of a single toggle for your users.
+
 
 ## 📦 What's Inside
 
@@ -228,6 +380,8 @@ Widget/File | Purpose
 `ThemeColorPickerWidget` | Expandable color picker that shows in-place
 `ThemeDialogButton` | AppBar button that shows colors in a dialog
 `CustomColorPickerDialog` | Static utility to show a theme picker from any widget
+`ThemeModeToggle` | Simple toggle for switching between light and dark mode
+`DarkLightModeCustomToggle` | Advanced toggle for custom light/dark mode color schemes
 `ThemeNotifier + themeProvider` | Riverpod logic for managing theme color
 
 
@@ -352,8 +506,48 @@ void main() {
 - Leverages Flutter's Material 3 design system
 - Provides immediate visual feedback while processing complex themes
 
+## 🔄 Widget Compatibility Guide
 
+Here's a guide on which widgets can be combined and which should be used separately:
 
+### Compatible Combinations
 
+✅ `ThemeColorPickerWidget` + `ThemeDialogButton`
+- These can work well together as they both use the same theme provider. You might use the dialog in the AppBar and the picker widget elsewhere in your UI.
+
+✅ `ThemeColorPickerWidget` + `ThemeModeToggle`
+- These work well together as they control different aspects: one changes the color palette, the other toggles between light/dark mode.
+
+✅ `ThemeDialogButton` + `ThemeModeToggle`
+- Similar to above, these control different aspects of theming and can be used together.
+
+✅ `CustomColorPickerDialog` + `ThemeModeToggle`
+- The dialog can be triggered from custom UI while the toggle handles light/dark mode.
+
+### Incompatible Combinations
+
+❌ `ThemeModeToggle` + `DarkLightModeCustomToggle`
+- Both control light/dark mode switching but in different ways. Using both will cause conflicts.
+
+❌ `DarkLightModeCustomToggle` + Any color picker widget
+- The custom toggle implements its own color palette system that may conflict with the standard color pickers.
+
+### Recommended Setups
+
+1. **Basic Theme Control:**
+   - `ThemeDialogButton` in the AppBar
+   - `ThemeModeToggle` in the AppBar or settings screen
+
+2. **Advanced Theme Control:**
+   - `ThemeColorPickerWidget` as a floating widget
+   - `ThemeDialogButton` in the AppBar
+   - `ThemeModeToggle` in the AppBar or settings screen
+
+3. **Custom Theme Control:**
+   - `CustomColorPickerDialog` triggered from custom UI elements
+   - `ThemeModeToggle` for light/dark switching
+
+4. **Fully Custom Theme System:**
+   - `DarkLightModeCustomToggle` alone, with custom color palettes for both modes
 
 

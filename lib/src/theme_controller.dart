@@ -4,17 +4,20 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/foundation.dart';
 import 'dart:developer' as developer;
 
-ThemeData _generateThemeData(Color primaryColor, {Color? scaffoldColor}) {
-  // Remove backgroundColor parameter
+ThemeData _generateThemeData(Color primaryColor,
+    {Color? scaffoldColor, bool isDarkMode = false}) {
+  // Create color scheme based on brightness
   final colorScheme = ColorScheme.fromSeed(
     seedColor: primaryColor,
     primary: primaryColor,
+    brightness: isDarkMode ? Brightness.dark : Brightness.light,
   );
 
   return ThemeData(
     colorScheme: colorScheme,
     useMaterial3: true,
     scaffoldBackgroundColor: scaffoldColor,
+    brightness: isDarkMode ? Brightness.dark : Brightness.light,
     appBarTheme: AppBarTheme(
       backgroundColor: primaryColor,
       foregroundColor:
@@ -27,6 +30,7 @@ class ThemeNotifier extends StateNotifier<ThemeData> {
   Color _defaultColor = Colors.blue; // Default fallback, will be overridden
   Color? _scaffoldColor;
   bool _hasUserSelectedColor = false; // Track if user has selected a color
+  bool _isDarkMode = false; // Track dark mode state
 
   ThemeNotifier() : super(_generateThemeData(Colors.blue)) {
     // Load saved theme asynchronously without blocking
@@ -40,9 +44,22 @@ class ThemeNotifier extends StateNotifier<ThemeData> {
 
     // Only update the theme if user hasn't selected a color and we haven't loaded a saved theme
     if (!_hasUserSelectedColor && state.colorScheme.primary == Colors.blue) {
-      state = _generateThemeData(color, scaffoldColor: scaffoldColor);
+      state = _generateThemeData(color,
+          scaffoldColor: scaffoldColor, isDarkMode: _isDarkMode);
     }
   }
+
+  // Toggle between light and dark mode
+  Future<void> toggleDarkMode() async {
+    _isDarkMode = !_isDarkMode;
+    await _saveDarkModePreference(_isDarkMode);
+
+    // Update theme with current color but new brightness
+    updateThemeOffMainThread(state.colorScheme.primary);
+  }
+
+  // Get current dark mode state
+  bool get isDarkMode => _isDarkMode;
 
   Future<void> updateThemeOffMainThread(Color primaryColor) async {
     // Mark that user has selected a color
@@ -61,8 +78,14 @@ class ThemeNotifier extends StateNotifier<ThemeData> {
     developer.log('Starting theme generation in isolate', name: 'performance');
     final isolateStart = DateTime.now();
     final newTheme = await compute(
-        (color) => _generateThemeData(color, scaffoldColor: _scaffoldColor),
-        primaryColor);
+        (params) => _generateThemeData(params['color'] as Color,
+            scaffoldColor: params['scaffoldColor'] as Color?,
+            isDarkMode: params['isDarkMode'] as bool),
+        {
+          'color': primaryColor,
+          'scaffoldColor': _scaffoldColor,
+          'isDarkMode': _isDarkMode
+        });
     developer.log(
         'Theme generation completed in ${DateTime.now().difference(isolateStart).inMilliseconds}ms',
         name: 'performance');
@@ -89,8 +112,17 @@ class ThemeNotifier extends StateNotifier<ThemeData> {
     await prefs.setString('theme_color', colorString);
   }
 
+  Future<void> _saveDarkModePreference(bool isDarkMode) async {
+    final prefs = await _getPrefs();
+    await prefs.setBool('is_dark_mode', isDarkMode);
+  }
+
   Future<void> loadSavedTheme() async {
     final prefs = await SharedPreferences.getInstance();
+
+    // Load dark mode preference
+    _isDarkMode = prefs.getBool('is_dark_mode') ?? false;
+
     final colorString = prefs.getString('theme_color');
     if (colorString != null && colorString.startsWith('#')) {
       try {
@@ -101,6 +133,7 @@ class ThemeNotifier extends StateNotifier<ThemeData> {
         updateThemeOffMainThread(color);
       } catch (e) {
         // If parsing fails, keep the default theme
+        updateThemeOffMainThread(_defaultColor);
       }
     } else {
       // No saved theme, use the default color
@@ -129,12 +162,14 @@ class ThemeNotifier extends StateNotifier<ThemeData> {
     final colorScheme = ColorScheme.fromSeed(
       seedColor: primaryColor,
       primary: primaryColor,
+      brightness: _isDarkMode ? Brightness.dark : Brightness.light,
     );
 
     state = ThemeData(
       colorScheme: colorScheme,
       useMaterial3: true,
       scaffoldBackgroundColor: _scaffoldColor,
+      brightness: _isDarkMode ? Brightness.dark : Brightness.light,
       appBarTheme: AppBarTheme(
         backgroundColor: primaryColor,
         foregroundColor:

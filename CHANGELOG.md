@@ -1,3 +1,13 @@
+## 0.0.3+0
+
+* Added two new theme toggle widgets:
+  - `ThemeModeToggle`: A simple toggle for switching between light and dark mode
+  - `DarkLightModeCustomToggle`: An advanced toggle for custom light/dark mode color schemes
+* Enhanced documentation with examples for all widgets
+* Added support for named color palettes in custom themes
+* Improved performance for theme switching
+* Fixed minor UI issues in theme picker widgets
+
 ## 0.0.2+9
 
 * Added a new CustomColorPickerDialog utility for showing the theme picker from any widget
@@ -59,6 +69,7 @@
 * Basic theme switching functionality
 * Support for colourful and darkthemes
 * Customizable widget appearance
+
 
 
 

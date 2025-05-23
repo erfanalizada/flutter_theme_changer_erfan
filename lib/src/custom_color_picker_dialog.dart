@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'theme_controller.dart';
+import 'theme_mode_toggle.dart';
 
 /// A dialog that displays color options for theme selection.
 ///
@@ -28,6 +29,7 @@ class CustomColorPickerDialog {
       Colors.teal,
       Colors.amber,
     ],
+    bool showDarkModeToggle = true,
   }) {
     return showDialog(
       context: context,
@@ -36,67 +38,64 @@ class CustomColorPickerDialog {
           borderRadius: BorderRadius.circular(16),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: _ColorPickerContent(availableColors: availableColors),
+          padding: const EdgeInsets.all(24.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'Choose Theme',
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+              if (showDarkModeToggle) ...[
+                const SizedBox(height: 16),
+                const ThemeModeToggle(),
+                const SizedBox(height: 16),
+                const Divider(),
+              ],
+              const SizedBox(height: 20),
+              Consumer(
+                builder: (context, ref, _) {
+                  return Wrap(
+                    spacing: 12,
+                    runSpacing: 12,
+                    alignment: WrapAlignment.center,
+                    children: availableColors.map((color) {
+                      return InkWell(
+                        onTap: () {
+                          ref.read(themeProvider.notifier).updateTheme(color);
+                          Navigator.of(context).pop();
+                        },
+                        borderRadius: BorderRadius.circular(20),
+                        child: Container(
+                          width: 50,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            color: color,
+                            shape: BoxShape.circle,
+                            border: Border.all(color: Colors.white, width: 2),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withValues(alpha: 0.2),
+                                blurRadius: 4,
+                                offset: const Offset(0, 2),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  );
+                },
+              ),
+              const SizedBox(height: 20),
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: const Text('Cancel'),
+              ),
+            ],
+          ),
         ),
       ),
-    );
-  }
-}
-
-class _ColorPickerContent extends ConsumerWidget {
-  final List<Color> availableColors;
-
-  const _ColorPickerContent({
-    required this.availableColors,
-  });
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(
-          'Select Theme Color',
-          style: Theme.of(context).textTheme.titleLarge,
-        ),
-        const SizedBox(height: 20),
-        Wrap(
-          spacing: 12,
-          runSpacing: 12,
-          alignment: WrapAlignment.center,
-          children: availableColors.map((color) {
-            return InkWell(
-              onTap: () {
-                ref.read(themeProvider.notifier).updateTheme(color);
-                Navigator.of(context).pop();
-              },
-              borderRadius: BorderRadius.circular(20),
-              child: Container(
-                width: 50,
-                height: 50,
-                decoration: BoxDecoration(
-                  color: color,
-                  shape: BoxShape.circle,
-                  border: Border.all(color: Colors.white, width: 2),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.2),
-                      blurRadius: 4,
-                      offset: const Offset(0, 2),
-                    ),
-                  ],
-                ),
-              ),
-            );
-          }).toList(),
-        ),
-        const SizedBox(height: 20),
-        TextButton(
-          onPressed: () => Navigator.of(context).pop(),
-          child: const Text('Cancel'),
-        ),
-      ],
     );
   }
 }

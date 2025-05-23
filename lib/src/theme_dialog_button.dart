@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'theme_color_picker_widget.dart';
+import 'theme_mode_toggle.dart';
 
 /// A button that shows a theme picker in a dialog when pressed.
 class ThemeDialogButton extends StatelessWidget {
@@ -15,6 +16,7 @@ class ThemeDialogButton extends StatelessWidget {
     ],
     this.gradientColors = const [],
     this.icon = const Icon(Icons.palette),
+    this.showDarkModeToggle = true,
   });
 
   /// The list of colors to display in the color picker dialog
@@ -26,6 +28,9 @@ class ThemeDialogButton extends StatelessWidget {
   /// The icon to display in the button
   final Widget icon;
 
+  /// Whether to show the dark mode toggle in the dialog
+  final bool showDarkModeToggle;
+
   @override
   Widget build(BuildContext context) {
     return IconButton(
@@ -36,9 +41,20 @@ class ThemeDialogButton extends StatelessWidget {
           builder: (context) => Dialog(
             child: Padding(
               padding: const EdgeInsets.all(20.0),
-              child: ThemeColorPickerWidget(
-                availableColors: availableColors,
-                gradientColors: gradientColors,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (showDarkModeToggle) ...[
+                    const ThemeModeToggle(),
+                    const SizedBox(height: 16),
+                    const Divider(),
+                    const SizedBox(height: 16),
+                  ],
+                  ThemeColorPickerWidget(
+                    availableColors: availableColors,
+                    gradientColors: gradientColors,
+                  ),
+                ],
               ),
             ),
           ),
