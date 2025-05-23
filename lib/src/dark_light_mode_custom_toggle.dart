@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -57,7 +56,8 @@ class CustomThemeColorsNotifier extends StateNotifier<CustomThemeColors> {
             'background': Colors.grey.shade900,
             'text': Colors.white,
           },
-          isDarkMode: false, // Default to light mode, will be overridden by saved preference
+          isDarkMode:
+              false, // Default to light mode, will be overridden by saved preference
         )) {
     // Load saved mode preference immediately
     _loadSavedModePreference();
@@ -243,7 +243,8 @@ class DarkLightModeCustomToggle extends ConsumerWidget {
         // Check if there's a saved preference
         final currentIsDarkMode =
             ref.read(customThemeColorsProvider).isDarkMode;
-        final hasPreference = ref.read(customThemeColorsProvider.notifier)._preferencesLoaded;
+        final hasPreference =
+            ref.read(customThemeColorsProvider.notifier)._preferencesLoaded;
 
         // If there's no saved preference or we're forcing the default mode
         if (!hasPreference) {
@@ -343,5 +344,3 @@ class DarkLightModeCustomToggle extends ConsumerWidget {
 
 // Add this flag to the state class
 bool _initialized = false;
-
-

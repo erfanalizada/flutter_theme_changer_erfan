@@ -64,7 +64,6 @@ class _MyAppState extends ConsumerState<MyApp> {
       syncWithAppTheme: true,
     );
 
-
     // Mark initialization as complete
     ref.read(initializationCompleteProvider.notifier).state = true;
   }

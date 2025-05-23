@@ -1,3 +1,11 @@
+## 0.0.5+0
+
+* Added proper dark mode initialization in CustomThemeColorPalette
+* Fixed issue with defaultDarkMode not being applied correctly
+* Improved theme persistence and initialization logic
+* Enhanced documentation for dark mode configuration
+* Added examples for setting dark mode as default in main.dart
+
 ## 0.0.4+0
 
 * Added export for `dark_light_mode_custom_toggle.dart` in the main library file
@@ -76,6 +84,7 @@
 * Basic theme switching functionality
 * Support for colourful and darkthemes
 * Customizable widget appearance
+
 
 
 
