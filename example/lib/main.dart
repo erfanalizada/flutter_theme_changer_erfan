@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_theme_changer_erfan/dynamic_theme_picker.dart';
-import 'package:flutter_theme_changer_erfan/src/dark_light_mode_custom_toggle.dart';
 
 // Create a provider to track if initialization is complete
 final initializationCompleteProvider = StateProvider<bool>((ref) => false);
@@ -65,13 +64,6 @@ class _MyAppState extends ConsumerState<MyApp> {
       syncWithAppTheme: true,
     );
 
-    // Apply to app theme immediately
-    CustomThemeColorPalette.applyToAppTheme(
-      ref,
-      lightModeColors: appLightModeColors,
-      darkModeColors: appDarkModeColors,
-      isDarkMode: false,
-    );
 
     // Mark initialization as complete
     ref.read(initializationCompleteProvider.notifier).state = true;

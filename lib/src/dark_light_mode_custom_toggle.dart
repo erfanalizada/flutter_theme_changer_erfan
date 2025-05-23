@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -56,7 +57,7 @@ class CustomThemeColorsNotifier extends StateNotifier<CustomThemeColors> {
             'background': Colors.grey.shade900,
             'text': Colors.white,
           },
-          isDarkMode: false, // Default to light mode
+          isDarkMode: false, // Default to light mode, will be overridden by saved preference
         )) {
     // Load saved mode preference immediately
     _loadSavedModePreference();
@@ -239,15 +240,14 @@ class DarkLightModeCustomToggle extends ConsumerWidget {
             .read(customThemeColorsProvider.notifier)
             .setDarkModeColors(darkModeColors);
 
-        // Only set default mode if there's no saved preference
-        // This allows the saved preference to take precedence
+        // Check if there's a saved preference
         final currentIsDarkMode =
             ref.read(customThemeColorsProvider).isDarkMode;
+        final hasPreference = ref.read(customThemeColorsProvider.notifier)._preferencesLoaded;
 
-        // If there's no saved preference (currentIsDarkMode is false by default)
-        // and defaultDarkMode is true, then set the mode
-        if (!currentIsDarkMode && defaultDarkMode) {
-          // Set the mode directly
+        // If there's no saved preference or we're forcing the default mode
+        if (!hasPreference) {
+          // Set the mode directly to the default
           ref.read(customThemeColorsProvider.notifier).setMode(defaultDarkMode);
 
           // If syncing with app theme, also update the app theme
@@ -343,3 +343,5 @@ class DarkLightModeCustomToggle extends ConsumerWidget {
 
 // Add this flag to the state class
 bool _initialized = false;
+
+
