@@ -1,3 +1,10 @@
+## 0.0.4+0
+
+* Added export for `dark_light_mode_custom_toggle.dart` in the main library file
+* Updated license information to GNU General Public License v3.0 throughout the package
+* Improved documentation for custom theme palette functionality
+* Fixed minor issues with theme persistence
+
 ## 0.0.3+0
 
 * Added two new theme toggle widgets:
@@ -69,6 +76,7 @@
 * Basic theme switching functionality
 * Support for colourful and darkthemes
 * Customizable widget appearance
+
 
 
 
